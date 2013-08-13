@@ -69,6 +69,7 @@ static int pinToBit(UART::IPIN pin)
 	case UART::IPIN_RI:
 		return TIOCM_RI;
 	}
+	return -1;
 }
 
 
@@ -81,6 +82,7 @@ static int pinToBit(UART::OPIN pin)
 	case UART::OPIN_DTR:
 		return TIOCM_DTR;
 	}
+	return -1;
 }
 
 

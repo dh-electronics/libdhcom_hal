@@ -98,7 +98,7 @@ STATUS GPIO::setDirection(DIRECTION dir)
 
 STATUS GPIO::set(bool value)
 {
-	impl_->set(value);
+	return impl_->set(value);
 }
 
 
