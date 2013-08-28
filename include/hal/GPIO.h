@@ -45,6 +45,14 @@ public:
 		DIRECTION_OUTPUT,	///< the pin used as output
 	};
 
+	enum EDGE
+	{
+		EDGE_NONE		= 0,	///< the pin used as input
+		EDGE_RISING 	= 1,	///< the pin used as output
+		EDGE_FALLING 	= 2,	///< the pin used as output
+		EDGE_BOTH 		= 3,	///< the pin used as output
+	};
+
 	GPIO(const System &sys, PORT port);
 	GPIO(uint16_t pinInternal);
 	~GPIO();
@@ -57,6 +65,9 @@ public:
 	STATUS set(bool value);
 	bool get(STATUS *status = NULL) const;
 	int16_t pin() const;
+
+	STATUS edgeDetect(EDGE edge);
+	int fileDescriptor() const;
 
 private:
 	GPIOImpl * const impl_;

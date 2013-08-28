@@ -39,6 +39,9 @@ private:
 	inline bool get(STATUS *status) const;
 	int16_t pin() const { return pin_; }
 
+	STATUS edgeDetect(GPIO::EDGE edge);
+	int fileDescriptor() const { return fileDescriptor_; }
+
 	int 	fileDescriptor_;
 	int16_t pin_;
 	STATUS 	hwStatus_;
@@ -113,6 +116,17 @@ int16_t GPIO::pin() const
 	return impl_->pin();
 }
 
+
+STATUS GPIO::edgeDetect(GPIO::EDGE edge)
+{
+	return impl_->edgeDetect(edge);
+}
+
+
+int GPIO::fileDescriptor() const
+{
+	return impl_->fileDescriptor();
+}
 
 
 // GPIOImpl::
@@ -274,3 +288,40 @@ bool GPIOImpl::get(STATUS *status) const
 		return false;
 	}
 }
+
+
+STATUS GPIOImpl::edgeDetect(GPIO::EDGE edge)
+{
+	if(!isOpen())
+		return STATUS_DEVICE_NOT_OPEN;
+
+	int file = ::open("/sys/class/gpio/edge", O_WRONLY);
+	if (file < 0)
+		return STATUS_DEVICE_CONFIG_FAILED;
+
+	const char *data;
+	int length;
+	switch(edge)
+	{
+	case GPIO::EDGE_NONE:
+		data = "none";
+		length = 4;
+		break;
+	case GPIO::EDGE_RISING:
+		data = "rising";
+		length = 6;
+		break;
+	case GPIO::EDGE_FALLING:
+		data = "falling";
+		length = 7;
+		break;
+	case GPIO::EDGE_BOTH:
+		data = "both";
+		length = 4;
+		break;
+	}
+	int written = write(file, data, length);
+	::close(file);
+	return (written == length) ? STATUS_SUCCESS : STATUS_DEVICE_CONFIG_FAILED;
+}
+
