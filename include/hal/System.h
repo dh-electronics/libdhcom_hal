@@ -37,10 +37,10 @@ public:
 	// Enumeration for all possible hardware platforms
 	enum HARDWARE
 	{
-		HARDWARE_INVALID,		///< hardware was not set yet (used as a return value)
-		HARDWARE_DHCOM_IMX25,	///< Running on DHCOM-iMX25 module
-		HARDWARE_DHCOM_AM35,	///< Running on DHCOM-AM35 module
-		HARDWARE_PC,			///< Running on x86_32 or x86_64 PC
+        HARDWARE_INVALID        = 0,    ///< hardware was not set yet (used as a return value)
+        HARDWARE_DHCOM_IMX25    = 1,    ///< Running on DHCOM-iMX25 module
+        HARDWARE_DHCOM_AM35     = 2,	///< Running on DHCOM-AM35 module
+        HARDWARE_PC             = 100   ///< Running on x86_32 or x86_64 PC
 	};
 
 	System();
