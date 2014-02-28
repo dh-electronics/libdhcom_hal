@@ -376,19 +376,37 @@ namespace dhcom
 			return false;
 		}
 
+        bool result;
+        STATUS newStatus;
 		switch(pin)
 		{
 		case UART::IPIN_DSR:
-			return 0 != (pinStates & MS_DSR_ON);
+            newStatus = STATUS_SUCCESS;
+            result = 0 != (pinStates & MS_DSR_ON);
+            break;
 
 		case UART::IPIN_CTS:
-			return 0 != (pinStates & MS_CTS_ON);
+            newStatus = STATUS_SUCCESS;
+            result = 0 != (pinStates & MS_CTS_ON);
+            break;
 
 		case UART::IPIN_CD:
-			return 0 != (pinStates & MS_RLSD_ON);
+            newStatus = STATUS_SUCCESS;
+            result = 0 != (pinStates & MS_RLSD_ON);
+            break;
 
 		case UART::IPIN_RI:
-			return 0 != (pinStates & MS_RING_ON);
+            newStatus = STATUS_SUCCESS;
+            result = 0 != (pinStates & MS_RING_ON);
+            break;
+
+        default:
+            newStatus = STATUS_DEVICE_READ_FAILED;
+            result = false;
+            break;
 		}
+
+        if(status) *status = newStatus;
+        return result;
 	}
 }
