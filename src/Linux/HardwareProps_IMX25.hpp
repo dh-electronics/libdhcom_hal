@@ -9,6 +9,8 @@
 #	define IMX25_Props NULL
 #else
 
+#   warning Including HARDWARE_DHCOM_IMX25
+
 const uint8_t IMX25_GPIOpins[] = {
 		44, 85, 36, 37, 38, 39, 40, 41, 81, 10, 11, 8, 9, 117, 7, 6, 31, 30, 29, 28, 27};
 

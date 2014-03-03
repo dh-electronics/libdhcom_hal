@@ -9,6 +9,8 @@
 #	define PC_Props NULL
 #else
 
+#   warning Including HARDWARE_PC
+
 const uint8_t PC_GPIOpins[] = {};
 
 const char *PC_UARTS[] = {

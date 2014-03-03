@@ -9,6 +9,8 @@
 #	define AM35_Props NULL
 #else
 
+#   warning Including HARDWARE_DHCOM_AM35
+
 static const uint8_t AM35_GPIOpins[] = {
 		116, 117, 118, 119, 125, 140, 141, 155, 152, 96, 94, 58, 97, 98, 95, 106, 105, 104, 103, 102, 101, 100, 99};
 
