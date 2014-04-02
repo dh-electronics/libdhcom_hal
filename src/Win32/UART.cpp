@@ -185,9 +185,13 @@ namespace dhcom
 		// setting the read and write timeouts
 		COMMTIMEOUTS ctb;
 		memset(&ctb, 0, sizeof (ctb));
-		uint32_t timeout = 115200 / dcb.BaudRate;
-		ctb.WriteTotalTimeoutMultiplier = timeout;
-		ctb.ReadTotalTimeoutMultiplier = timeout;
+        int intervalTimeout = 1000 * 8 / dcb.BaudRate;
+        if(intervalTimeout == 0)
+            intervalTimeout = 1; // minimal is one millisec
+        ctb.ReadTotalTimeoutConstant = ctb.WriteTotalTimeoutConstant = intervalTimeout;
+        ctb.ReadIntervalTimeout = intervalTimeout;
+        ctb.WriteTotalTimeoutMultiplier = intervalTimeout;
+        ctb.ReadTotalTimeoutMultiplier = intervalTimeout;
 		if (!SetCommTimeouts(deviceHandle_, &ctb))
 			return STATUS_DEVICE_CONFIG_FAILED;
 
