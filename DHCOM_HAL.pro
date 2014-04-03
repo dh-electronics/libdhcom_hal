@@ -35,15 +35,6 @@ unix {
 message("Hardware: " $$HARDWARE ", Platform: " $$PLATFORM)
 CONFIG += $$HARDWARE
 
-# Configuring output destination
-DESTDIR = build/$$PLATFORM/$$BUILD/
-DLLDESTDIR  = $$DESTDIR
-OBJECTS_DIR = $$DESTDIR/.obj
-MOC_DIR 	= $$DESTDIR/.moc
-RCC_DIR 	= $$DESTDIR/.rcc
-UI_DIR 		= $$DESTDIR/.ui
-message("Building path: " $$DESTDIR)
-
 # Includes
 INCLUDEPATH += include
 message("Includes: " $$INCLUDEPATH)
