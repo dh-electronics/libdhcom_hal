@@ -17,7 +17,7 @@
 
 
 /// Use this definition if you want the library to support DHCOM-iMX25
-//#define USE_HARDWARE_DHCOM_AM35
+//#define USE_HARDWARE_DHCOM_IMX25
 /// Use this definition if you want the library to support DHCOM-AM35xx
 //#define USE_HARDWARE_DHCOM_AM35
 /// Use this definition if you want the library to support x86 PC

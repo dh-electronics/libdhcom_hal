@@ -72,3 +72,7 @@ include/DHCOM_HAL.h \
 include/hal/Types.h \
 include/hal/System.h \
 include/hal/UART.h
+
+DESTDIR = $$OUT_PWD/$$BUILD
+MOC_DIR = $$DESTDIR
+OBJECTS_DIR = $$DESTDIR
