@@ -1,7 +1,7 @@
 TARGET = DHCOM_HAL
 TEMPLATE = lib
 CONFIG -= qt 
-CONFIG += dll  
+CONFIG += dll
 
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
@@ -29,7 +29,7 @@ unix {
 	!isEmpty(PLATFORM) {
 	} else {
 		HARDWARE = x86
-		PLATFORM = x86_Linux
+                PLATFORM = Linux
 	}
 }
 message("Hardware: " $$HARDWARE ", Platform: " $$PLATFORM)

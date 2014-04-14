@@ -218,6 +218,7 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
 	case UART::BAUDRATE_57600:
 		portBaudRate = B57600;
 		break;
+    default:
 	case UART::BAUDRATE_115200:
 		portBaudRate = B115200;
 		break;

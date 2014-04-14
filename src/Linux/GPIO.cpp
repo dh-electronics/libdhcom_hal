@@ -303,6 +303,7 @@ STATUS GPIOImpl::edgeDetect(GPIO::EDGE edge)
 	int length;
 	switch(edge)
 	{
+    default:
 	case GPIO::EDGE_NONE:
 		data = "none";
 		length = 4;
