@@ -24,14 +24,13 @@ win32 {
 		DHCOM_HAL_IMPL = Win32
 	}
 }
+
 unix {
 	DHCOM_HAL_IMPL = Linux
-	!isEmpty(PLATFORM) {
-	} else {
-		HARDWARE = x86
-                PLATFORM = Linux
-	}
+        isEmpty(PLATFORM) : PLATFORM = Linux
+        isEmpty(HARDWARE) : HARDWARE = x86
 }
+
 message("Hardware: " $$HARDWARE ", Platform: " $$PLATFORM)
 CONFIG += $$HARDWARE
 
@@ -60,6 +59,15 @@ DHCOM_AM35 | DHCOM_iMX25 {
 
 DHCOM_iMX25 {
 	HEADERS += src/$$DHCOM_HAL_IMPL/imx_adc.h
+        DEFINES += USE_HARDWARE_DHCOM_IMX25
+}
+
+DHCOM_AM35 {
+        DEFINES += USE_HARDWARE_DHCOM_AM35
+}
+
+x86 {
+        DEFINES += USE_HARDWARE_PC
 }
 
 # UART and System are available on all platforms
