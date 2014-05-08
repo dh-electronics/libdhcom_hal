@@ -5,11 +5,9 @@ CONFIG += dll
 
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
-	BUILD = debug
 	message("Configuring DEBUG build.")
 }
 CONFIG(release, debug|release) {
-	BUILD = release
 	message("Configuring RELEASE build.")
 }
 
@@ -80,7 +78,3 @@ include/DHCOM_HAL.h \
 include/hal/Types.h \
 include/hal/System.h \
 include/hal/UART.h
-
-DESTDIR = $$OUT_PWD/$$BUILD
-MOC_DIR = $$DESTDIR
-OBJECTS_DIR = $$DESTDIR
