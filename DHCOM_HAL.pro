@@ -78,3 +78,4 @@ include/DHCOM_HAL.h \
 include/hal/Types.h \
 include/hal/System.h \
 include/hal/UART.h
+
