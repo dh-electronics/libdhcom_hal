@@ -17,20 +17,13 @@ win32 {
 	!isEmpty(CE_SDK) {
 		DHCOM_HAL_IMPL = WinCE
 	} else {
-		HARDWARE = x86
-		PLATFORM = x86_Win32
 		DHCOM_HAL_IMPL = Win32
 	}
 }
 
 unix {
 	DHCOM_HAL_IMPL = Linux
-        isEmpty(PLATFORM) : PLATFORM = Linux
-        isEmpty(HARDWARE) : HARDWARE = x86
 }
-
-message("Hardware: " $$HARDWARE ", Platform: " $$PLATFORM)
-CONFIG += $$HARDWARE
 
 # Includes
 INCLUDEPATH += include
