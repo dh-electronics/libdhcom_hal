@@ -40,7 +40,8 @@
  * \section compile_sec Compiling
  * It is intended to compile the DHCOM HAL with Qt4 build system (qmake), though it does not use any of the Qt libraries. 
  * \n The project file for building is supplied with the library (DHCOM_HAL.pro).
- * \n If you are building for DHCOM module targets - before running qmake it is necessary to copy the qt make specifications from directory <b>Qt4.8-mkspecs</b> to the <b>mkspecs</b> directory of your Qt installation.
+ * \n To compile for DHCOM Modules use the Qt for DHCOM targets installation, supplied in the Debian building environment by DH Electronics.
+ * \n Use options CONFIG+=DHCOM_AM35 or CONFIG+=DHCOM_iMX25 to compile support for DHCOM_AM35 or DHCOM_iMX25 modules, or both of them.
  *
  * \subsection win_pc_sec Configuring for Windows pc
  * If you want to configure for Windows PC, execute the following command from the Visual Studio command prompt:
@@ -57,7 +58,8 @@
  *
  * \subsection linux_dhcom_sec Configuring for DHCOM module running Linux.
  * You can configure the build for DHCOM modules running linux the following way:
- * \n <b> qmake -spec linux-arm-gnueabi-g++_DHCOM_AM35 CONFIG=debug_and_release</b>
+ * \n <b> qmake -spec linux-arm-gnueabi-g++ CONFIG=debug_and_release</b>
+ * \n The mkspec linux-arm-gnueabi-g++ must be in place to do this.
  * \n The makefile project will be created.
  *
  * \subsection manual_sec Manual configuration
@@ -72,7 +74,7 @@
  * \n To manually compile on linux:
  * \li select the appropriate source files from src/Linux
  * \li include the \b include directory
- * \li observe correctness of definitions of supported targets in System.h
+ * \li observe correctness of definitions of supported targets in System.h (USE_HARDWARE_...)
  * \li create a Makefile or Eclipse project
  *
  * \section license_sec License
