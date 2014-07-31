@@ -28,6 +28,7 @@ namespace dhcom
 	{
 	private:
 		UARTImpl(const System &hw, UART::DEVICE device);
+        UARTImpl(const char *deviceName);
 		~UARTImpl();
 
 		inline STATUS setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UART::STOPBITS stopBits, UART::FLOWCONTROL flowControl);
@@ -56,6 +57,12 @@ namespace dhcom
 		: impl_(new UARTImpl(sys, device))
 	{
 	}
+
+
+    UART::UART(const char *deviceName)
+        : impl_(new UARTImpl(deviceName))
+    {
+    }
 
 
 	UART::~UART()
@@ -120,6 +127,14 @@ namespace dhcom
 	{
 		deviceName_ = sys.getUartDeviceName(device, &hwStatus_);
 	}
+
+
+    UARTImpl::UARTImpl(const char *deviceName)
+        : deviceName_(deviceName)
+        , deviceHandle_(INVALID_HANDLE_VALUE)
+        , hwStatus_(STATUS_SUCCESS)
+    {
+    }
 
 
 	UARTImpl::~UARTImpl()

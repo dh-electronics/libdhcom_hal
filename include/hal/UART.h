@@ -88,6 +88,7 @@ public:
 	};
 
 	UART(const System &sys, DEVICE device);
+    UART(const char *deviceName);
 	~UART();
 
 	STATUS setCommParams(BAUDRATE baudRate, PARITY parity, STOPBITS stopBits, FLOWCONTROL flowControl);
