@@ -200,7 +200,7 @@ int SPIImpl::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint3
 	tr.tx_buf = (unsigned long)outputBuffer;
 	tr.rx_buf = (unsigned long)inputBuffer;
 	tr.len = length;
-	tr.delay_usecs = 0;
+    tr.delay_usecs = 0;
 	tr.speed_hz = freqHZ_;
 	tr.bits_per_word = bits_;
 	tr.cs_change = 0;

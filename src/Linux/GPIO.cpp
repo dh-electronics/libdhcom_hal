@@ -26,27 +26,27 @@ namespace dhcom
 class GPIOImpl
 {
 private:
-	GPIOImpl(const System &sys, GPIO::PORT pin);
-	GPIOImpl(uint16_t pinInternal);
-	~GPIOImpl();
+    GPIOImpl(const System &sys, GPIO::PORT pin);
+    GPIOImpl(uint16_t pinInternal);
+    ~GPIOImpl();
 
-	inline STATUS open();
-	inline STATUS close();
-	inline bool isOpen() const;
+    inline STATUS open();
+    inline STATUS close();
+    inline bool isOpen() const;
 
-	inline STATUS setDirection(GPIO::DIRECTION dir);
-	inline STATUS set(bool value);
-	inline bool get(STATUS *status) const;
-	int16_t pin() const { return pin_; }
+    inline STATUS setDirection(GPIO::DIRECTION dir);
+    inline STATUS set(bool value);
+    inline bool get(STATUS *status) const;
+    int16_t pin() const { return pin_; }
 
-	STATUS edgeDetect(GPIO::EDGE edge);
-	int fileDescriptor() const { return fileDescriptor_; }
+    STATUS edgeDetect(GPIO::EDGE edge);
+    int fileDescriptor() const { return fileDescriptor_; }
 
-	int 	fileDescriptor_;
-	int16_t pin_;
-	STATUS 	hwStatus_;
+    int 	fileDescriptor_;
+    int16_t pin_;
+    STATUS 	hwStatus_;
 
-	friend class GPIO;
+    friend class GPIO;
 };
 }
 
@@ -58,74 +58,74 @@ using namespace dhcom;
 
 
 GPIO::GPIO(const System &sys, GPIO::PORT pin)
-: impl_(new GPIOImpl(sys, pin))
+    : impl_(new GPIOImpl(sys, pin))
 {
 }
 
 
 GPIO::GPIO(uint16_t pinInternal)
-: impl_(new GPIOImpl(pinInternal))
+    : impl_(new GPIOImpl(pinInternal))
 {
 }
 
 
 GPIO::~GPIO()
 {
-	delete impl_;
+    delete impl_;
 }
 
 
 STATUS GPIO::open()
 {
-	return impl_->open();
+    return impl_->open();
 }
 
 
 STATUS GPIO::close()
 {
-	return impl_->close();
+    return impl_->close();
 }
 
 
 bool GPIO::isOpen() const
 {
-	return impl_->isOpen();
+    return impl_->isOpen();
 }
 
 
 STATUS GPIO::setDirection(DIRECTION dir)
 {
-	return impl_->setDirection(dir);
+    return impl_->setDirection(dir);
 }
 
 
 STATUS GPIO::set(bool value)
 {
-	return impl_->set(value);
+    return impl_->set(value);
 }
 
 
 bool GPIO::get(STATUS *status) const
 {
-	return impl_->get(status);
+    return impl_->get(status);
 }
 
 
 int16_t GPIO::pin() const
 {
-	return impl_->pin();
+    return impl_->pin();
 }
 
 
 STATUS GPIO::edgeDetect(GPIO::EDGE edge)
 {
-	return impl_->edgeDetect(edge);
+    return impl_->edgeDetect(edge);
 }
 
 
 int GPIO::fileDescriptor() const
 {
-	return impl_->fileDescriptor();
+    return impl_->fileDescriptor();
 }
 
 
@@ -133,196 +133,212 @@ int GPIO::fileDescriptor() const
 
 
 GPIOImpl::GPIOImpl(const System &sys, GPIO::PORT port)
-: fileDescriptor_(-1)
-, pin_(-1)
-, hwStatus_(STATUS_SUCCESS)
+    : fileDescriptor_(-1)
+    , pin_(-1)
+    , hwStatus_(STATUS_SUCCESS)
 {
-	pin_ = sys.getGPIOPortPin(port, &hwStatus_);
+    pin_ = sys.getGPIOPortPin(port, &hwStatus_);
 }
 
 
 GPIOImpl::GPIOImpl(uint16_t pinInternal)
-: fileDescriptor_(-1)
-, pin_(pinInternal)
-, hwStatus_(STATUS_SUCCESS)
+    : fileDescriptor_(-1)
+    , pin_(pinInternal)
+    , hwStatus_(STATUS_SUCCESS)
 {
 }
 
 
 GPIOImpl::~GPIOImpl()
 {
-	close();
+    close();
 }
 
 
 STATUS GPIOImpl::open()
 {
-	if(hwStatus_)
-		return hwStatus_;
+    if(hwStatus_)
+        return hwStatus_;
 
-	if(isOpen())
-		return STATUS_DEVICE_ALREADY_OPEN;
+    if(isOpen())
+        return STATUS_DEVICE_ALREADY_OPEN;
 
-	int file = ::open("/sys/class/gpio/export", O_WRONLY);
-	if (file < 0)
-		return STATUS_DEVICE_OPEN_FAILED;
+    // exporting
+    {
+        int file = ::open("/sys/class/gpio/export", O_WRONLY);
+        if (file < 0)
+            return STATUS_DEVICE_OPEN_FAILED;
 
-	char strGPIOnr[4];
-	snprintf(strGPIOnr, 4, "%d", pin_);
+        char strGPIOnr[4];
+        snprintf(strGPIOnr, 4, "%d", pin_);
 
-	::write(file, strGPIOnr, 4);
-	::close(file);
+        ::write(file, strGPIOnr, 4);
+        ::close(file);
+    }
 
-	// open the value file
-	char name[36];
-	snprintf(name, sizeof(name), "/sys/class/gpio/gpio%d/value", pin_);
-	fileDescriptor_ = ::open(name, O_RDWR);
-	if (fileDescriptor_ < 0)
-		return STATUS_DEVICE_OPEN_FAILED;
+    // setting active_low to 0
+    {
+        char inv[64];
+        snprintf(inv, sizeof(inv), "/sys/class/gpio/gpio%d/active_low", pin_);
+        int file = ::open(inv, O_RDWR);
+        if (file > 0)
+        {
+            ::write(file, "0", 1);
+            ::close(file);
+        }
+    }
 
-	return STATUS_SUCCESS;
+    // open the value file
+    {
+        char name[64];
+        snprintf(name, sizeof(name), "/sys/class/gpio/gpio%d/value", pin_);
+        fileDescriptor_ = ::open(name, O_RDWR);
+        if (fileDescriptor_ < 0)
+            return STATUS_DEVICE_OPEN_FAILED;
+    }
+    return STATUS_SUCCESS;
 }
 
 
 STATUS GPIOImpl::close()
 {
-	if(isOpen())
-	{
-		::close(fileDescriptor_);
-		fileDescriptor_ = -1;
+    if(isOpen())
+    {
+        ::close(fileDescriptor_);
+        fileDescriptor_ = -1;
 
-		int file = ::open("/sys/class/gpio/unexport", O_WRONLY);
-		if (file < 0)
-			return STATUS_DEVICE_CLOSE_FAILED;
+        int file = ::open("/sys/class/gpio/unexport", O_WRONLY);
+        if (file < 0)
+            return STATUS_DEVICE_CLOSE_FAILED;
 
-		char strGPIOnr[4];
-		snprintf(strGPIOnr, 4, "%d", pin_);
+        char strGPIOnr[4];
+        snprintf(strGPIOnr, 4, "%d", pin_);
 
-		write(file, strGPIOnr, 4);
-		::close(file);
-	}
-	return STATUS_SUCCESS;
+        write(file, strGPIOnr, 4);
+        ::close(file);
+    }
+    return STATUS_SUCCESS;
 }
 
 
 bool GPIOImpl::isOpen() const
 {
-	return fileDescriptor_ > 0;
+    return fileDescriptor_ > 0;
 }
 
 
 STATUS GPIOImpl::setDirection(GPIO::DIRECTION dir)
 {
-	if(!isOpen())
-		return STATUS_DEVICE_NOT_OPEN;
+    if(!isOpen())
+        return STATUS_DEVICE_NOT_OPEN;
 
-	char strGPIOdirectionFile[34];
-	snprintf(strGPIOdirectionFile, sizeof(strGPIOdirectionFile), "/sys/class/gpio/gpio%d/direction", pin_);
+    char strGPIOdirectionFile[34];
+    snprintf(strGPIOdirectionFile, sizeof(strGPIOdirectionFile), "/sys/class/gpio/gpio%d/direction", pin_);
 
-	/* open direction-file */
-	int file = ::open(strGPIOdirectionFile, O_RDWR);
-	if (file < 0)
-		return STATUS_DEVICE_CONFIG_FAILED;
+    /* open direction-file */
+    int file = ::open(strGPIOdirectionFile, O_RDWR);
+    if (file < 0)
+        return STATUS_DEVICE_CONFIG_FAILED;
 
-	const char *directionName;
-	int directionBytes;
-	if (dir == GPIO::DIRECTION_INPUT)
-	{
-		directionName = "in";
-		directionBytes = 3;
-	}
-	else
-	{
-		directionName = "out";
-		directionBytes = 4;
-	}
-	int tmp = write(file, directionName, directionBytes);
-	::close(file);
+    const char *directionName;
+    int directionBytes;
+    if (dir == GPIO::DIRECTION_INPUT)
+    {
+        directionName = "in";
+        directionBytes = 3;
+    }
+    else
+    {
+        directionName = "out";
+        directionBytes = 4;
+    }
+    int tmp = write(file, directionName, directionBytes);
+    ::close(file);
 
-	/* check if the direction was written properly */
-	if (tmp < directionBytes)
-		return STATUS_DEVICE_CONFIG_FAILED;
+    /* check if the direction was written properly */
+    if (tmp < directionBytes)
+        return STATUS_DEVICE_CONFIG_FAILED;
 
-	return STATUS_SUCCESS;
+    return STATUS_SUCCESS;
 }
 
 
 STATUS GPIOImpl::set(bool value)
 {
-	if(!isOpen())
-		return STATUS_DEVICE_NOT_OPEN;
+    if(!isOpen())
+        return STATUS_DEVICE_NOT_OPEN;
 
-	lseek(fileDescriptor_, 0, SEEK_SET);
-	if (::write(fileDescriptor_, value ? "1" : "0", 2) != 2)
-		return STATUS_DEVICE_WRITE_FAILED;
+    lseek(fileDescriptor_, 0, SEEK_SET);
+    if (::write(fileDescriptor_, value ? "1" : "0", 2) != 2)
+        return STATUS_DEVICE_WRITE_FAILED;
 
-	return STATUS_SUCCESS;
+    return STATUS_SUCCESS;
 }
 
 
 bool GPIOImpl::get(STATUS *status) const
 {
-	if(!isOpen())
-		return STATUS_DEVICE_NOT_OPEN;
+    if(!isOpen())
+        return STATUS_DEVICE_NOT_OPEN;
 
-	lseek(fileDescriptor_, 0, SEEK_SET);
+    lseek(fileDescriptor_, 0, SEEK_SET);
 
-	/* read value */
-	char strValue[2];
-	if (::read(fileDescriptor_, strValue, 2) < 0)
-	{
-		if(status) *status = STATUS_DEVICE_READ_FAILED;
-		return false;
-	}
+    /* read value */
+    char strValue[2];
+    if (::read(fileDescriptor_, strValue, 2) < 0)
+    {
+        if(status) *status = STATUS_DEVICE_READ_FAILED;
+        return false;
+    }
 
-	switch(strValue[0])
-	{
-	case '0':
-		if(status) *status = STATUS_SUCCESS;
-		return false;
-	case '1':
-		if(status) *status = STATUS_SUCCESS;
-		return true;
-	default:
-		if(status) *status = STATUS_DEVICE_READ_FAILED;
-		return false;
-	}
+    switch(strValue[0])
+    {
+    case '0':
+        if(status) *status = STATUS_SUCCESS;
+        return false;
+    case '1':
+        if(status) *status = STATUS_SUCCESS;
+        return true;
+    default:
+        if(status) *status = STATUS_DEVICE_READ_FAILED;
+        return false;
+    }
 }
 
 
 STATUS GPIOImpl::edgeDetect(GPIO::EDGE edge)
 {
-	if(!isOpen())
-		return STATUS_DEVICE_NOT_OPEN;
+    if(!isOpen())
+        return STATUS_DEVICE_NOT_OPEN;
 
-	int file = ::open("/sys/class/gpio/edge", O_WRONLY);
-	if (file < 0)
-		return STATUS_DEVICE_CONFIG_FAILED;
+    int file = ::open("/sys/class/gpio/edge", O_WRONLY);
+    if (file < 0)
+        return STATUS_DEVICE_CONFIG_FAILED;
 
-	const char *data;
-	int length;
-	switch(edge)
-	{
+    const char *data;
+    int length;
+    switch(edge)
+    {
     default:
-	case GPIO::EDGE_NONE:
-		data = "none";
-		length = 4;
-		break;
-	case GPIO::EDGE_RISING:
-		data = "rising";
-		length = 6;
-		break;
-	case GPIO::EDGE_FALLING:
-		data = "falling";
-		length = 7;
-		break;
-	case GPIO::EDGE_BOTH:
-		data = "both";
-		length = 4;
-		break;
-	}
-	int written = write(file, data, length);
-	::close(file);
-	return (written == length) ? STATUS_SUCCESS : STATUS_DEVICE_CONFIG_FAILED;
+    case GPIO::EDGE_NONE:
+        data = "none";
+        length = 4;
+        break;
+    case GPIO::EDGE_RISING:
+        data = "rising";
+        length = 6;
+        break;
+    case GPIO::EDGE_FALLING:
+        data = "falling";
+        length = 7;
+        break;
+    case GPIO::EDGE_BOTH:
+        data = "both";
+        length = 4;
+        break;
+    }
+    int written = write(file, data, length);
+    ::close(file);
+    return (written == length) ? STATUS_SUCCESS : STATUS_DEVICE_CONFIG_FAILED;
 }
 
