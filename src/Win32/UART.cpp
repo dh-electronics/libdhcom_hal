@@ -200,7 +200,7 @@ namespace dhcom
 		// setting the read and write timeouts
 		COMMTIMEOUTS ctb;
 		memset(&ctb, 0, sizeof (ctb));
-        int intervalTimeout = 1000 * 8 / dcb.BaudRate;
+        int intervalTimeout = 4000 * 8 / dcb.BaudRate;
         if(intervalTimeout == 0)
             intervalTimeout = 1; // minimal is one millisec
         ctb.ReadTotalTimeoutConstant = ctb.WriteTotalTimeoutConstant = intervalTimeout;
@@ -298,7 +298,7 @@ namespace dhcom
 			,0
 			,NULL
 			,OPEN_EXISTING
-			,0
+            ,0 // FILE_FLAG_OVERLAPPED
 			,NULL);
 
 		if(deviceHandle_ == INVALID_HANDLE_VALUE)
