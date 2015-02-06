@@ -197,22 +197,11 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
         break;
     }
 
-    // setting the read and write timeouts
-    COMMTIMEOUTS ctb;
-    memset(&ctb, 0, sizeof (ctb));
-    int intervalTimeout = 2000 * 8 / dcb.BaudRate;
-    if(intervalTimeout == 0)
-        intervalTimeout = 1; // minimal is one millisec
-    ctb.ReadTotalTimeoutConstant = ctb.WriteTotalTimeoutConstant = intervalTimeout;
-    ctb.ReadIntervalTimeout = intervalTimeout;
-    ctb.WriteTotalTimeoutMultiplier = intervalTimeout;
-    ctb.ReadTotalTimeoutMultiplier = intervalTimeout;
-    if (!SetCommTimeouts(deviceHandle_, &ctb))
-        return STATUS_DEVICE_CONFIG_FAILED;
-
 #undef PARITY_NONE
 #undef PARITY_EVEN
 #undef PARITY_ODD
+
+    int txBits = 9; // 8 bit data and min 1 stopbit
 
     // parity
     switch(parity)
@@ -224,10 +213,12 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
     case UART::PARITY_ODD:
         dcb.fParity = TRUE;
         dcb.Parity = ODDPARITY;
+        ++txBits;   // parity bit
         break;
     case UART::PARITY_EVEN:
         dcb.fParity = TRUE;
         dcb.Parity = EVENPARITY;
+        ++txBits;   // parity bit
         break;
     }
 
@@ -239,8 +230,23 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
         break;
     case UART::STOPBITS_2:
         dcb.StopBits = TWOSTOPBITS;
+        ++txBits;   // one more stopbit
         break;
     }
+
+    // setting the read and write timeouts
+    COMMTIMEOUTS ctb;
+    memset(&ctb, 0, sizeof (ctb));
+    int intervalTimeout = 1000 * txBits / dcb.BaudRate;
+    if(intervalTimeout == 0)
+        intervalTimeout = 1; // minimal is one millisec
+    ctb.ReadTotalTimeoutConstant = 5;
+    ctb.WriteTotalTimeoutConstant = 5;
+    ctb.ReadIntervalTimeout = intervalTimeout;
+    ctb.WriteTotalTimeoutMultiplier = intervalTimeout;
+    ctb.ReadTotalTimeoutMultiplier = intervalTimeout;
+    if (!SetCommTimeouts(deviceHandle_, &ctb))
+        return STATUS_DEVICE_CONFIG_FAILED;
 
     // flow control
     switch(flowControl)
@@ -348,10 +354,15 @@ uint32_t UARTImpl::write(const uint8_t *buffer, uint32_t size, STATUS *status)
     }
     else
     {
-        stat = (GetLastError() == ERROR_IO_PENDING &&
-                GetOverlappedResult(deviceHandle_, &overlapped, &bytesSend, TRUE))
-                ? STATUS_SUCCESS
-                : STATUS_DEVICE_WRITE_FAILED;
+        if(GetLastError() == ERROR_IO_PENDING)
+        {
+            GetOverlappedResult(deviceHandle_, &overlapped, &bytesSend, TRUE);
+            stat = STATUS_SUCCESS;
+        }
+        else
+        {
+            stat = STATUS_DEVICE_WRITE_FAILED;
+        }
     }
     CloseHandle(overlapped.hEvent);
 
@@ -382,10 +393,15 @@ uint32_t UARTImpl::read(uint8_t *buffer, uint32_t size, STATUS *status)
     }
     else
     {
-        stat = (GetLastError() == ERROR_IO_PENDING &&
-                GetOverlappedResult(deviceHandle_, &overlapped, &bytesRead, TRUE))
-                ? STATUS_SUCCESS
-                : STATUS_DEVICE_READ_FAILED;
+        if(GetLastError() == ERROR_IO_PENDING)
+        {
+            GetOverlappedResult(deviceHandle_, &overlapped, &bytesRead, TRUE);
+            stat = STATUS_SUCCESS;
+        }
+        else
+        {
+            stat = STATUS_DEVICE_READ_FAILED;
+        }
     }
     CloseHandle(overlapped.hEvent);
 
