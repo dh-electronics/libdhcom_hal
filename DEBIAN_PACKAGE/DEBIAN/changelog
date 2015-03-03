@@ -1,0 +1,7 @@
+DHCOM_HAL package
+
+2015-03-3/PK:
+version 1.0
+- DHCOM Hardware Abstraction Library for AM35xx & iMX25
+- contains classes for SPI, I2C, GPIO, basic UARTS, ADC, Physical Memory Access
+

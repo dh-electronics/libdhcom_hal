@@ -1,0 +1,11 @@
+Package: DHCOM_HAL
+Version: 1.0
+Architecture: armel
+Maintainer: Peter Kishalov <pkishalov@dh-electronics.de>
+Installed-Size: 25M
+Depends:
+Section: misc
+Priority: optional
+Homepage: http://www.dh-electronics.com
+Description: DHCOM Hardware Abstraction Library
+
