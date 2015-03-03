@@ -1,8 +1,8 @@
-Package: DHCOM_HAL
+Package: dhcom-hal
 Version: 1.0
 Architecture: armel
 Maintainer: Peter Kishalov <pkishalov@dh-electronics.de>
-Installed-Size: 25M
+Installed-Size: 50K
 Depends:
 Section: misc
 Priority: optional

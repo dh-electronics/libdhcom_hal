@@ -46,6 +46,18 @@ DHCOM_AM35 | DHCOM_iMX25 {
 	include/hal/PhysMem.h \
 	include/hal/SPI.h \
 	include/hal/ADC.h
+
+        debian_package_path = /tmp/dhcom-hal
+        debian.path = $$debian_package_path
+        debian.commands = \
+        svn export --force $$PWD/DEBIAN_PACKAGE $$debian_package_path ;\
+        mkdir -p $$debian_package_path/usr/lib ;\
+        cd $$OUT_PWD ;\
+        cp -d lib* $$debian_package_path/usr/lib ;\
+        dpkg -b $$debian_package_path dhcom-hal.deb ;\
+        rm -rf $$debian_package_path
+
+INSTALLS = debian
 }
 
 DHCOM_iMX25 {
@@ -71,4 +83,11 @@ include/DHCOM_HAL.h \
 include/hal/Types.h \
 include/hal/System.h \
 include/hal/UART.h
+
+OTHER_FILES = \
+DEBIAN_PACKAGE/DEBIAN/changelog \
+DEBIAN_PACKAGE/DEBIAN/control \
+DEBIAN_PACKAGE/DEBIAN/postinst \
+DEBIAN_PACKAGE/DEBIAN/preinst
+
 
