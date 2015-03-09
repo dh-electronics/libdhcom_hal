@@ -44,7 +44,7 @@ public:
 	};
 
 	System();
-	System(HARDWARE hardware);
+    explicit System(HARDWARE hardware);
 
 	STATUS 		setHardware(HARDWARE hardware);
 	HARDWARE 	getHardware() const;

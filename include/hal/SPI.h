@@ -57,6 +57,8 @@ public:
 	int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status = NULL);
 
 private:
+    SPI(const SPI &) : impl_(NULL) {}
+
 	SPIImpl * const 	impl_;
 };
 

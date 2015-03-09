@@ -33,7 +33,7 @@ public:
 		BUS_I2C3 = 3,	///< I2C master device 3
 	};
 
-	I2CBus(BUS bus);
+    explicit I2CBus(BUS bus);
 	~I2CBus();
 
 	STATUS open();
@@ -47,6 +47,8 @@ public:
 	STATUS write(uint8_t byte);
 
 private:
+    I2CBus(const I2CBus &) : impl_(NULL) {}
+
 	I2CBusImpl * const impl_;
 };
 

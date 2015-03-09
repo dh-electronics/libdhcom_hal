@@ -41,6 +41,8 @@ public:
 	uint16_t read() const;
 
 private:
+    ADC(const ADC &) : impl_(NULL) {}
+
 	ADCImpl * const impl_;
 };
 

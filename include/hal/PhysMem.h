@@ -35,6 +35,8 @@ public:
 	uint32_t 		getLength() const;
 
 private:
+    PhysMem(const PhysMem &) : impl_(NULL) {}
+
 	PhysMemImpl * const impl_;
 };
 

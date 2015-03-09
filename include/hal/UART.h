@@ -88,7 +88,7 @@ public:
 	};
 
 	UART(const System &sys, DEVICE device);
-    UART(const char *deviceName);
+    explicit UART(const char *deviceName);
 	~UART();
 
 	STATUS setCommParams(BAUDRATE baudRate, PARITY parity, STOPBITS stopBits, FLOWCONTROL flowControl);
@@ -103,6 +103,8 @@ public:
 	bool getPin(IPIN pin, STATUS *status = NULL) const;
 
 private:
+    UART(const UART &) : impl_(NULL) {}
+
 	UARTImpl * const impl_;
 };
 

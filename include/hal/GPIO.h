@@ -54,7 +54,7 @@ public:
 	};
 
 	GPIO(const System &sys, PORT port);
-	GPIO(uint16_t pinInternal);
+    explicit GPIO(uint16_t pinInternal);
 	~GPIO();
 
 	STATUS open();
@@ -70,6 +70,8 @@ public:
 	int fileDescriptor() const;
 
 private:
+    GPIO(const GPIO &) : impl_(NULL) {}
+
 	GPIOImpl * const impl_;
 };
 

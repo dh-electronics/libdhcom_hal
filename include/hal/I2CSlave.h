@@ -30,6 +30,8 @@ public:
 	STATUS 	write(uint8_t byte);
 
 private:
+    I2CSlave(const I2CSlave &) : bus_(NULL) {}
+
 	I2CBus * const 	bus_;
 	uint16_t 	address_;
 };
