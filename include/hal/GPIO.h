@@ -69,7 +69,9 @@ public:
 	int fileDescriptor() const;
 
 private:
-    GPIO(const GPIO &) : impl_(NULL) {}
+#ifndef __GNUG__ // with modern gnu c++ this gives initialization bugs for object arrays
+    explicit GPIO(const GPIO &) : impl_(NULL) {}
+#endif
 
 	GPIOImpl * const impl_;
 };
