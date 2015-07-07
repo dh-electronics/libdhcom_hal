@@ -18,6 +18,7 @@ namespace dhcom
 {
 
 
+class System;
 class I2CBusImpl;
 
 
@@ -27,12 +28,13 @@ public:
 	/// Master device enumeration
 	enum BUS
 	{
-		BUS_I2C1 = 1,	///< I2C master device 1
-		BUS_I2C2 = 2,	///< I2C master device 2
-		BUS_I2C3 = 3,	///< I2C master device 3
+        BUS_I2C1 = 0,	///< I2C master device 1
+        BUS_I2C2,       ///< I2C master device 2
+        BUS_I2C3        ///< I2C master device 3
 	};
 
-    explicit I2CBus(BUS bus);
+    I2CBus(const System &sys, BUS bus);
+    explicit I2CBus(BUS bus);           // deprecated, used for compatibility with older versions
 	~I2CBus();
 
 	STATUS open();

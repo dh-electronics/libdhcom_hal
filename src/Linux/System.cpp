@@ -21,7 +21,11 @@ struct HardwareProps
 	const uint8_t 	* const GPIOpins_;
 	const uint8_t			numberOfUarts_;
 	const char * const * const uartNames_;
+    const uint8_t   * const i2cDeviceNameIdx_;
 } * System::hwProps_ = NULL;
+
+
+static const char *i2cDeviceNames[] = {"/dev/i2c-1", "/dev/i2c-2", "/dev/i2c-3"};
 
 
 #include "HardwareProps_AM35.hpp"
@@ -140,6 +144,12 @@ uint8_t System::getGPIOPortPin(GPIO::PORT port, STATUS *status) const
 
 	if(status) *status = STATUS_SUCCESS;
 	return hwProps_->GPIOpins_[port];
+}
+
+
+const char * System::getI2CDeviceName(I2CBus::BUS bus) const
+{
+    return i2cDeviceNames[uint8_t(bus)];
 }
 
 

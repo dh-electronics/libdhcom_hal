@@ -9,7 +9,7 @@
 #	define PC_Props NULL
 #else
 
-#   pragma message "Including HARDWARE_PC"
+#   warning "Including HARDWARE_PC"
 
 const uint8_t PC_GPIOpins[] = {};
 
@@ -21,7 +21,7 @@ const char *PC_UARTS[] = {
 		"/dev/ttyS16", "/dev/ttyS17", "/dev/ttyS18", "/dev/ttyS19", };
 
 HardwareProps PC_Props_struct = {
-		System::HARDWARE_PC, 0, PC_GPIOpins, 20, PC_UARTS};
+        System::HARDWARE_PC, 0, PC_GPIOpins, 20, PC_UARTS, NULL};
 
 #	define PC_Props (&PC_Props_struct)
 #endif
