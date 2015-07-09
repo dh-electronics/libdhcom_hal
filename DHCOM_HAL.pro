@@ -5,10 +5,10 @@ CONFIG += dll
 
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
-	message("Configuring DEBUG build.")
+    message("Configuring DEBUG build.")
 }
 CONFIG(release, debug|release) {
-	message("Configuring RELEASE build.")
+    message("Configuring RELEASE build.")
 }
 
 # Defining platform-dependent settings
@@ -23,6 +23,7 @@ win32 {
 
 unix {
 	DHCOM_HAL_IMPL = Linux
+        BUILD=
 }
 
 # Includes

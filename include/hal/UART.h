@@ -11,6 +11,7 @@
 
 #include <DHCOM_HAL.h>
 #include <hal/Types.h>
+#include <stddef.h>
 
 
 namespace dhcom
