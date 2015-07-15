@@ -123,4 +123,11 @@ uint8_t System::getGPIOPortPin(GPIO::PORT port, STATUS *status) const
 }
 
 
+const char * System::getI2CDeviceName(I2CBus::BUS /* bus */) const
+{
+    return NULL;
 }
+
+
+}
+

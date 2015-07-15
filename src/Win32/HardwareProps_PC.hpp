@@ -9,6 +9,8 @@
 #	define PC_Props NULL
 #else
 
+#  pragma message ("Including HARDWARE_PC for Win32")
+
 const uint8_t PC_GPIOpins[] = {0};
 
 const char *PC_UARTS[] = {
