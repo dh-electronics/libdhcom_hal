@@ -21,6 +21,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+#include <string.h>
 
 
 namespace dhcom
@@ -197,6 +198,7 @@ int SPIImpl::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint3
 	}
 
 	struct spi_ioc_transfer tr;
+    memset(&tr, 0, sizeof(tr));
 	tr.tx_buf = (unsigned long)outputBuffer;
 	tr.rx_buf = (unsigned long)inputBuffer;
 	tr.len = length;
