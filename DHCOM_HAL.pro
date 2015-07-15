@@ -23,7 +23,6 @@ win32 {
 
 unix {
 	DHCOM_HAL_IMPL = Linux
-        BUILD=
 }
 
 # Includes
