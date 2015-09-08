@@ -21,14 +21,13 @@ struct HardwareProps
 	const uint8_t 	* const GPIOpins_;
 	const uint8_t			numberOfUarts_;
 	const char * const * const uartNames_;
-    const uint8_t   * const i2cDeviceNameIdx_;
+    const uint8_t			numberOfI2C_;
+    const char * const * const i2cNames_;
 } * System::hwProps_ = NULL;
 
 
-static const char *i2cDeviceNames[] = {"/dev/i2c-1", "/dev/i2c-2", "/dev/i2c-3"};
-
-
 #include "HardwareProps_AM35.hpp"
+#include "HardwareProps_AM33.hpp"
 #include "HardwareProps_IMX25.hpp"
 #include "HardwareProps_IMX6.hpp"
 #include "HardwareProps_PC.hpp"
@@ -58,6 +57,9 @@ STATUS System::setHardware(System::HARDWARE hardware)
 	case HARDWARE_DHCOM_AM35:
 		hwProps_ = AM35_Props;
 		break;
+    case HARDWARE_DHCOM_AM33:
+        hwProps_ = AM33_Props;
+        break;
     case HARDWARE_DHCOM_IMX6_REV200:
         hwProps_ = IMX6_REV200_Props;
         break;
@@ -149,7 +151,10 @@ uint8_t System::getGPIOPortPin(GPIO::PORT port, STATUS *status) const
 
 const char * System::getI2CDeviceName(I2CBus::BUS bus) const
 {
-    return i2cDeviceNames[uint8_t(bus)];
+    if(!hwProps_ || bus >= hwProps_->numberOfI2C_)
+        return NULL;
+
+    return hwProps_->i2cNames_[uint8_t(bus)];
 }
 
 

@@ -147,7 +147,14 @@ STATUS I2CBusImpl::open()
     if(isOpen())
         return STATUS_DEVICE_ALREADY_OPEN;
 
-    deviceHandle_ = ::open(System().getI2CDeviceName(bus_), O_RDWR);
+    if(!System().getHardware())
+        return STATUS_HARDWARE_UNDEFINED;
+
+    const char * deviceName = System().getI2CDeviceName(bus_);
+    if(!deviceName)
+        return STATUS_DEVICE_DOESNT_EXIST;
+
+    deviceHandle_ = ::open(deviceName, O_RDWR);
     if(0 > deviceHandle_)
         return STATUS_DEVICE_OPEN_FAILED;
 

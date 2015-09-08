@@ -50,6 +50,7 @@ public:
         HARDWARE_DHCOM_IMX6_REV200  = 3,	///< Running on DHCOM-iMX6 module, revision 200
         HARDWARE_DHCOM_IMX6_REV300  = 4,	///< Running on DHCOM-iMX6 module, revision 300
         HARDWARE_DHCOM_IMX6         = HARDWARE_DHCOM_IMX6_REV300,   ///< Running on DHCOM-iMX6 module, shortcut for revision 300
+        HARDWARE_DHCOM_AM33         = 5,	///< Running on DHCOM-AM33 module
         HARDWARE_PC             = 100   ///< Running on x86_32 or x86_64 PC
 	};
 
