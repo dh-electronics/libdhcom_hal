@@ -23,6 +23,9 @@ struct HardwareProps
 	const char * const * const uartNames_;
     const uint8_t			numberOfI2C_;
     const char * const * const i2cNames_;
+    const uint8_t			numberOfSPI_;
+    const char * const * const spiNames_;
+
 } * System::hwProps_ = NULL;
 
 
@@ -155,6 +158,15 @@ const char * System::getI2CDeviceName(I2CBus::BUS bus) const
         return NULL;
 
     return hwProps_->i2cNames_[uint8_t(bus)];
+}
+
+
+const char * System::getSPIDeviceName(SPI::DEVICE bus) const
+{
+    if(!hwProps_ || bus >= hwProps_->numberOfSPI_)
+        return NULL;
+
+    return hwProps_->spiNames_[uint8_t(bus)];
 }
 
 

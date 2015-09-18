@@ -21,7 +21,11 @@ const char *PC_UARTS[] = {
 		"/dev/ttyS16", "/dev/ttyS17", "/dev/ttyS18", "/dev/ttyS19", };
 
 HardwareProps PC_Props_struct = {
-        System::HARDWARE_PC, 0, PC_GPIOpins, 20, PC_UARTS, NULL};
+    System::HARDWARE_PC,
+    0, PC_GPIOpins,
+    20, PC_UARTS,
+    0, NULL,
+    0, NULL };
 
 #	define PC_Props (&PC_Props_struct)
 #endif

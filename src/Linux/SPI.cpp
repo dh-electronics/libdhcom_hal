@@ -12,6 +12,7 @@
 
 
 #include <hal/SPI.h>
+#include <hal/System.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -31,10 +32,8 @@ namespace dhcom
 class SPIImpl
 {
 private:
-	SPIImpl(SPI::DEVICE device, SPI::CHIPSELECT chipSelect);
+    SPIImpl(SPI::DEVICE device, SPI::CHIPSELECT chipSelect);
 	~SPIImpl();
-
-	void spiDeviceName(char (&deviceName)[16]) const;
 
 	inline STATUS open();
 	inline STATUS close();
@@ -57,6 +56,12 @@ private:
 
 
 SPI::SPI(SPI::DEVICE device, SPI::CHIPSELECT chipSelect)
+    : impl_(new SPIImpl(device, chipSelect))
+{
+}
+
+
+SPI::SPI(const System &, SPI::DEVICE device, SPI::CHIPSELECT chipSelect)
 : impl_(new SPIImpl(device, chipSelect))
 {
 }
@@ -115,19 +120,17 @@ SPIImpl::~SPIImpl()
 }
 
 
-void SPIImpl::spiDeviceName(char (&deviceName)[16]) const
-{
-	snprintf(deviceName, sizeof(deviceName), "/dev/spidev%d.%d", int(device_), int(chipSelect_));
-}
-
-
 STATUS SPIImpl::open()
 {
-	char deviceName[16];
-	spiDeviceName(deviceName);
+    if(!System().getHardware())
+        return STATUS_HARDWARE_UNDEFINED;
 
 	if(isOpen())
 		return STATUS_DEVICE_ALREADY_OPEN;
+
+    const char *deviceName = System().getSPIDeviceName(device_);
+    if(!deviceName)
+        return STATUS_DEVICE_DOESNT_EXIST;
 
 	deviceHandle_ = ::open(deviceName, O_RDWR);
 	if(deviceHandle_ < 0)

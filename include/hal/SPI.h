@@ -19,6 +19,7 @@ namespace dhcom
 
 
 class SPIImpl;
+class System;
 
 
 class DHCOM_HAL SPI
@@ -27,11 +28,11 @@ public:
 	/// SPI bus enumeration
 	enum DEVICE
 	{
-		DEVICE_SPI1 = 1, ///< SPI1 is used
-		DEVICE_SPI2 = 2, ///< SPI2 is used
+        DEVICE_SPI1 = 0,    ///< DHCOM SPI1 is used
+        DEVICE_SPI2         ///< DHCOM SPI2 is used
 	};
 
-	/// CS signal enumeration (in fact, only cs0 is supported by DHCOM hardware)
+    /// CS signal enumeration (reserved for future, in fact - is ignored because only a single CS is supported by the DHCOM hardware)
 	enum CHIPSELECT
 	{
 		CS_0 = 0, ///< Select spi slave 1
@@ -45,7 +46,8 @@ public:
 		MODE_0,	MODE_1,	MODE_2,	MODE_3,
 	};
 
-	SPI(DEVICE device, CHIPSELECT chipSelect);
+    SPI(DEVICE device, CHIPSELECT chipSelect);  //< uses default system data
+    SPI(const System &sys, DEVICE device, CHIPSELECT chipSelect = CS_0);
 	~SPI();
 
 	STATUS open();

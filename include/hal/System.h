@@ -15,7 +15,7 @@
 #include <hal/UART.h>
 #include <hal/GPIO.h>
 #include <hal/I2CBus.h>
-
+#include <hal/SPI.h>
 
 
 /// Use this definition if you want the library to support DHCOM-iMX6-rev200
@@ -66,6 +66,7 @@ public:
 	uint16_t 	getGPIOPortsNumber(STATUS *status = NULL) const;
 	uint8_t 	getGPIOPortPin(GPIO::PORT port, STATUS *status = NULL) const;
     const char *getI2CDeviceName(I2CBus::BUS bus) const;
+    const char *getSPIDeviceName(SPI::DEVICE bus) const;
 
 private:
     static HardwareProps *hwProps_;

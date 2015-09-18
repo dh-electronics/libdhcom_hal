@@ -20,11 +20,15 @@ static const char *AM35_UARTS[] = {
 static const char *AM35_I2C_BUS[] = {
     "/dev/i2c-1", "/dev/i2c-3", "/dev/i2c-2", };
 
+static const char *AM35_SPI_BUS[] = {
+    "/dev/spidev1.0", "/dev/spidev2.0" };
+
 static HardwareProps AM35_Props_struct = {
     System::HARDWARE_DHCOM_AM35,
     23, AM35_GPIOpins,
     3, AM35_UARTS,
-    3, AM35_I2C_BUS};
+    3, AM35_I2C_BUS,
+    2, AM35_SPI_BUS};
 
 #	define AM35_Props (&AM35_Props_struct)
 #endif

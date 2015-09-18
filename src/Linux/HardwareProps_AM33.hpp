@@ -20,11 +20,15 @@ static const char *AM33_UARTS[] = {
 static const char *AM33_I2C_BUS[] = {
     "/dev/i2c-0", "/dev/i2c-2", };
 
+static const char *AM33_SPI_BUS[] = {
+    "/dev/spidev1.0", "/dev/spidev2.0" };
+
 static HardwareProps AM33_Props_struct = {
     System::HARDWARE_DHCOM_AM33,
     17, AM33_GPIOpins,
     2, AM33_UARTS,
-    2, AM33_I2C_BUS};
+    2, AM33_I2C_BUS,
+    2, AM33_SPI_BUS};
 
 #	define AM33_Props (&AM33_Props_struct)
 #endif
