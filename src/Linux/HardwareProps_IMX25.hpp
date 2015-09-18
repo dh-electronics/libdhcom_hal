@@ -17,7 +17,7 @@ const uint8_t IMX25_GPIOpins[] = {
 const char *IMX25_UARTS[] = {
     "/dev/ttymxc1", "/dev/ttymxc2", "/dev/ttymxc4", };
 
-const uint8_t IMX25_I2C_BUS[] = {
+const char *IMX25_I2C_BUS[] = {
         "/dev/i2c-0", "/dev/i2c-1", "/dev/i2c-2", };
 
 HardwareProps IMX25_Props_struct = {

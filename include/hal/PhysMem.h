@@ -11,6 +11,7 @@
 
 #include <DHCOM_HAL.h>
 #include <hal/Types.h>
+#include <sys/types.h>
 
 
 namespace dhcom
@@ -24,9 +25,11 @@ class DHCOM_HAL PhysMem
 {
 public:
 	PhysMem(uint32_t physAddress, uint32_t length);
+    PhysMem(const char *devName, uint32_t physAddress, uint32_t length);
 	~PhysMem();
 
 	STATUS open();
+    STATUS open(off_t pageOffset, size_t pageSize);
 	STATUS close();
 	bool isOpen() const;
 

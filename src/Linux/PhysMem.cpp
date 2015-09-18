@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
@@ -28,21 +27,23 @@ namespace dhcom
 class PhysMemImpl
 {
 private:
-	PhysMemImpl(uint32_t physAddress, uint32_t length);
+    PhysMemImpl(const char *devName, uint32_t physAddress, uint32_t length);
 	~PhysMemImpl();
 
-	inline STATUS open();
+    inline STATUS open();
+    inline STATUS open(off_t pageOffset, size_t pageSize); //< ignores the length and uses the exact page offset and size
 	inline STATUS close();
-	bool isOpen() const 		{ return deviceHandle_ > 0; }
+    bool isOpen() const             { return deviceHandle_ > 0; }
 
-	void * 	getAddress() const 	{ return address_ + pageOffset_; }
+    void * 	getAddress() const      { return address_ + pageOffset_; }
 	uint32_t 	getLength() const 	{ return length_; }
 
+    const char *    devName_;
 	const uint32_t 	physAddress_;
 	const uint32_t 	length_;
 	int 			deviceHandle_;
 	uint8_t *		address_;
-	uint32_t 		pageOffset_;
+    uint32_t 		pageOffset_;
 
 	friend class PhysMem;
 };
@@ -52,7 +53,13 @@ private:
 
 
 PhysMem::PhysMem(uint32_t physAddress, uint32_t length)
-: impl_(new PhysMemImpl(physAddress, length))
+: impl_(new PhysMemImpl("/dev/mem", physAddress, length))
+{
+}
+
+
+PhysMem::PhysMem(const char *devName, uint32_t physAddress, uint32_t length)
+: impl_(new PhysMemImpl(devName, physAddress, length))
 {
 }
 
@@ -66,6 +73,12 @@ PhysMem::~PhysMem()
 STATUS PhysMem::open()
 {
 	return impl_->open();
+}
+
+
+STATUS PhysMem::open(off_t pageOffset, size_t pageSize)
+{
+    return impl_->open(pageOffset, pageSize);
 }
 
 
@@ -97,11 +110,13 @@ bool PhysMem::isOpen() const
 // PhysMemImpl::
 
 
-PhysMemImpl::PhysMemImpl(uint32_t physAddress, uint32_t length)
-: physAddress_(physAddress)
+PhysMemImpl::PhysMemImpl(const char *devName, uint32_t physAddress, uint32_t length)
+: devName_(devName)
+, physAddress_(physAddress)
 , length_(length)
 , deviceHandle_(-1)
 , address_(NULL)
+, pageOffset_(0)
 {
 
 }
@@ -113,26 +128,30 @@ PhysMemImpl::~PhysMemImpl()
 }
 
 
-STATUS PhysMemImpl::open()
+STATUS PhysMemImpl::open(off_t pageOffset, size_t pageSize)
 {
 	if(isOpen())
 		return STATUS_DEVICE_ALREADY_OPEN;
 
-	deviceHandle_ = ::open("/dev/mem", O_RDWR | O_SYNC);
+    deviceHandle_ = ::open(devName_, O_RDWR | O_SYNC);
 	if(0 > deviceHandle_)
 		return STATUS_DEVICE_OPEN_FAILED;
 
-	pageOffset_ = physAddress_ % getpagesize();
-	off_t pageStart = physAddress_ - pageOffset_;
+    address_ = (uint8_t*)mmap(NULL, pageSize, PROT_READ | PROT_WRITE, MAP_SHARED, deviceHandle_, pageOffset);
 
-	address_ = (uint8_t*)mmap(NULL, length_ + pageOffset_, PROT_READ | PROT_WRITE, MAP_SHARED, deviceHandle_, pageStart);
-
-	// printf("\nphys %x virt %x page %x offset %x\n", physAddress_, address_, pageStart, pageOffset_);
+    printf("\nphys %x virt %x", physAddress_, address_);
 
 	if(address_ == MAP_FAILED)
 		return STATUS_DEVICE_OPEN_FAILED;
 
 	return STATUS_SUCCESS;
+}
+
+
+STATUS PhysMemImpl::open()
+{
+    pageOffset_ = physAddress_ % getpagesize();
+    return open(physAddress_ - pageOffset_, length_ + pageOffset_);
 }
 
 

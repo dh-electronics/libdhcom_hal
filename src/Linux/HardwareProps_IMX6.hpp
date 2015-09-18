@@ -10,7 +10,7 @@ const char *IMX6_UARTS[] = {
 
 const uint8_t IMX6_REV200_GPIOpins[] = { 2, 4, 5, 163, 101, 116, 91, 103, 104, 174, 175, 105, 192, 193, 149, 205, 18, 16, 17, 19, 20, 146, 147 };
 
-const uint8_t IMX6_REV200_I2C_BUS[] = = {
+const char *IMX6_REV200_I2C_BUS[] = {
         "/dev/i2c-0", "/dev/i2c-1", "/dev/i2c-2", };
 
 HardwareProps IMX6_REV200_Props_struct = {
@@ -31,7 +31,7 @@ HardwareProps IMX6_REV200_Props_struct = {
 
 const uint8_t IMX6_REV300_GPIOpins[] = { 2, 4, 5, 163, 101, 116, 91, 103, 104, 174, 175, 105, 192, 193, 149, 205, 18, 16, 17, 19, 20, 146, 147 };
 
-const uint8_t IMX6_REV300_I2C_BUS[] = {
+const char *IMX6_REV300_I2C_BUS[] = {
     "/dev/i2c-1", "/dev/i2c-0", "/dev/i2c-2", };
 
 HardwareProps IMX6_REV300_Props_struct = {
