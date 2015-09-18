@@ -139,7 +139,7 @@ STATUS PhysMemImpl::open(off_t pageOffset, size_t pageSize)
 
     address_ = (uint8_t*)mmap(NULL, pageSize, PROT_READ | PROT_WRITE, MAP_SHARED, deviceHandle_, pageOffset);
 
-    printf("\nphys %x virt %x", physAddress_, address_);
+    // printf("\nphys %x virt %x", physAddress_, address_);
 
 	if(address_ == MAP_FAILED)
 		return STATUS_DEVICE_OPEN_FAILED;
