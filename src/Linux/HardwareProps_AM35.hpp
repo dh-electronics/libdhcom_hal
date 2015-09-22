@@ -18,7 +18,7 @@ static const char *AM35_UARTS[] = {
     "/dev/ttyO0", "/dev/ttyO2", "/dev/ttyO1", };
 
 static const char *AM35_I2C_BUS[] = {
-    "/dev/i2c-1", "/dev/i2c-3", "/dev/i2c-2", };
+    "/dev/i2c-3", "/dev/i2c-2", "/dev/i2c-1", };
 
 static const char *AM35_SPI_BUS[] = {
     "/dev/spidev1.0", "/dev/spidev2.0" };

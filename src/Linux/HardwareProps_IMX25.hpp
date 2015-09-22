@@ -18,7 +18,7 @@ static const char *IMX25_UARTS[] = {
     "/dev/ttymxc1", "/dev/ttymxc2", "/dev/ttymxc4", };
 
 static const char *IMX25_I2C_BUS[] = {
-        "/dev/i2c-0", "/dev/i2c-1", "/dev/i2c-2", };
+        "/dev/i2c-1", "/dev/i2c-2", "/dev/i2c-0" };
 
 static const char *IMX25_SPI_BUS[] = {
     "/dev/spidev1.0", "/dev/spidev2.0" };

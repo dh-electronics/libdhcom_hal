@@ -37,7 +37,6 @@ static const uint8_t IMX6_REV300_GPIOpins[] = { 2, 4, 5, 163, 101, 116, 91, 103,
 
 static const char *IMX6_REV300_I2C_BUS[] = {
     "/dev/i2c-0", "/dev/i2c-1", "/dev/i2c-2", };
-//    "/dev/i2c-1", "/dev/i2c-0", "/dev/i2c-2", };
 
 static HardwareProps IMX6_REV300_Props_struct = {
     System::HARDWARE_DHCOM_IMX6_REV300,

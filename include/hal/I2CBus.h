@@ -30,7 +30,7 @@ public:
 	{
         BUS_I2C1 = 0,	///< I2C master device 1
         BUS_I2C2,       ///< I2C master device 2
-        BUS_I2C3        ///< I2C master device 3
+        BUS_I2C3        ///< I2C master device 3 (onboard)
 	};
 
     I2CBus(const System &sys, BUS bus);
