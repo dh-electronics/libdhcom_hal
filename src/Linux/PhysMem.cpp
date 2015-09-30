@@ -131,7 +131,7 @@ PhysMemImpl::~PhysMemImpl()
 STATUS PhysMemImpl::open(off_t pageOffset, size_t pageSize)
 {
 	if(isOpen())
-		return STATUS_DEVICE_ALREADY_OPEN;
+        return STATUS_SUCCESS;
 
     deviceHandle_ = ::open(devName_, O_RDWR | O_SYNC);
 	if(0 > deviceHandle_)
