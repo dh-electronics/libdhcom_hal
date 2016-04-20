@@ -22,10 +22,15 @@ const char *PC_UARTS[] = {
 	"\\\\.\\COM14", "\\\\.\\COM15",
 	"\\\\.\\COM16", "\\\\.\\COM17", 
 	"\\\\.\\COM18",	"\\\\.\\COM19", 
-	"\\\\.\\COM20",};
+    "\\\\.\\COM20", "\\\\.\\COM21",
+    "\\\\.\\COM22", "\\\\.\\COM23",
+    "\\\\.\\COM24", "\\\\.\\COM25",
+    "\\\\.\\COM26", "\\\\.\\COM27",
+    "\\\\.\\COM28", "\\\\.\\COM29",
+};
 
 HardwareProps PC_Props_struct = {
-		System::HARDWARE_PC, 0, PC_GPIOpins, 20, PC_UARTS};
+        System::HARDWARE_PC, 0, PC_GPIOpins, 29, PC_UARTS};
 
 #	define PC_Props (&PC_Props_struct)
 #endif
