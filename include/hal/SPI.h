@@ -54,8 +54,8 @@ public:
 	STATUS close();
 	bool isOpen() const;
 
-	STATUS setCommParams(MODE mode, uint8_t bits, uint32_t freqHZ);
-	int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status = NULL);
+	STATUS setCommParams(MODE mode, uint8_t bits, quint32 freqHZ);
+	int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, quint32 count, STATUS *status = NULL);
 
 private:
     SPI(const SPI &) : impl_(NULL) {}
@@ -106,7 +106,7 @@ private:
  */
 
 
-/** \fn STATUS SPI::setCommParams(SPI::MODE mode, uint8_t bits, uint32_t freqHZ);
+/** \fn STATUS SPI::setCommParams(SPI::MODE mode, uint8_t bits, quint32 freqHZ);
  *  \brief Sets the communication parameters of the SPI device.
  *  \param mode - the mode of the spi communication, which determines the rules about the phase and polarity of the CLK signal.
  *  \param bits - the number of bits in the SPI word.
@@ -116,7 +116,7 @@ private:
  */
 
 
-/** \fn int SPI::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status = NULL);
+/** \fn int SPI::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, quint32 count, STATUS *status = NULL);
  *  \brief Provides two-way communication over SPI.
  *  \param outputBuffer - the buffer from which the data is taken to be sent.
  *  \param inputBuffer - the buffer into which the incoming data is received.

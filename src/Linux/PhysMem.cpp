@@ -27,7 +27,7 @@ namespace dhcom
 class PhysMemImpl
 {
 private:
-    PhysMemImpl(const char *devName, uint32_t physAddress, uint32_t length);
+    PhysMemImpl(const char *devName, quint32 physAddress, quint32 length);
 	~PhysMemImpl();
 
     inline STATUS open();
@@ -36,14 +36,14 @@ private:
     bool isOpen() const             { return deviceHandle_ > 0; }
 
     void * 	getAddress() const      { return address_ + pageOffset_; }
-	uint32_t 	getLength() const 	{ return length_; }
+	quint32 	getLength() const 	{ return length_; }
 
     const char *    devName_;
-	const uint32_t 	physAddress_;
-	const uint32_t 	length_;
+	const quint32 	physAddress_;
+	const quint32 	length_;
 	int 			deviceHandle_;
 	uint8_t *		address_;
-    uint32_t 		pageOffset_;
+    quint32 		pageOffset_;
 
 	friend class PhysMem;
 };
@@ -52,13 +52,13 @@ private:
 // PhysMem::
 
 
-PhysMem::PhysMem(uint32_t physAddress, uint32_t length)
+PhysMem::PhysMem(quint32 physAddress, quint32 length)
 : impl_(new PhysMemImpl("/dev/mem", physAddress, length))
 {
 }
 
 
-PhysMem::PhysMem(const char *devName, uint32_t physAddress, uint32_t length)
+PhysMem::PhysMem(const char *devName, quint32 physAddress, quint32 length)
 : impl_(new PhysMemImpl(devName, physAddress, length))
 {
 }
@@ -94,7 +94,7 @@ void * 	PhysMem::getAddress() const
 }
 
 
-uint32_t 	PhysMem::getLength() const
+quint32 	PhysMem::getLength() const
 {
 	return impl_->getLength();
 }
@@ -110,7 +110,7 @@ bool PhysMem::isOpen() const
 // PhysMemImpl::
 
 
-PhysMemImpl::PhysMemImpl(const char *devName, uint32_t physAddress, uint32_t length)
+PhysMemImpl::PhysMemImpl(const char *devName, quint32 physAddress, quint32 length)
 : devName_(devName)
 , physAddress_(physAddress)
 , length_(length)

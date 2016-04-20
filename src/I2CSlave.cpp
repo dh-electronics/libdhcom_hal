@@ -19,7 +19,7 @@ I2CSlave::I2CSlave(I2CBus *bus, uint16_t address)
 }
 
 
-STATUS I2CSlave::read(uint8_t *buffer, uint32_t count) const
+STATUS I2CSlave::read(uint8_t *buffer, quint32 count) const
 {
 	STATUS st =	bus_->selectSlave(address_);
 	if(st) return st;
@@ -43,7 +43,7 @@ uint8_t I2CSlave::read(STATUS *status) const
 }
 
 
-STATUS I2CSlave::write(const uint8_t *buffer, uint32_t count)
+STATUS I2CSlave::write(const uint8_t *buffer, quint32 count)
 {
 	STATUS st =	bus_->selectSlave(address_);
 	if(st) return st;

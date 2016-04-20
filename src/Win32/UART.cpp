@@ -36,8 +36,8 @@ private:
     inline STATUS 	open();
     inline STATUS 	close();
     inline bool		isOpen() const;
-    inline uint32_t write(const uint8_t *buffer, uint32_t size, STATUS *status);
-    inline uint32_t read(uint8_t *buffer, uint32_t size, STATUS *status);
+    inline quint32 write(const uint8_t *buffer, quint32 size, STATUS *status);
+    inline quint32 read(uint8_t *buffer, quint32 size, STATUS *status);
 
     inline STATUS	setPin(UART::OPIN pin, bool value);
     inline bool		getPin(UART::IPIN pin, STATUS *status) const;
@@ -95,13 +95,13 @@ bool UART::isOpen() const
 }
 
 
-uint32_t UART::write(const uint8_t *buffer, uint32_t size, STATUS *status)
+quint32 UART::write(const uint8_t *buffer, quint32 size, STATUS *status)
 {
     return impl_->write(buffer, size, status);
 }
 
 
-uint32_t UART::read(uint8_t *buffer, uint32_t size, STATUS *status)
+quint32 UART::read(uint8_t *buffer, quint32 size, STATUS *status)
 {
     return impl_->read(buffer, size, status);
 }
@@ -331,7 +331,7 @@ bool UARTImpl::isOpen() const
 }
 
 
-uint32_t UARTImpl::write(const uint8_t *buffer, uint32_t size, STATUS *status)
+quint32 UARTImpl::write(const uint8_t *buffer, quint32 size, STATUS *status)
 {
     if(!isOpen())
     {
@@ -371,7 +371,7 @@ uint32_t UARTImpl::write(const uint8_t *buffer, uint32_t size, STATUS *status)
 }
 
 
-uint32_t UARTImpl::read(uint8_t *buffer, uint32_t size, STATUS *status)
+quint32 UARTImpl::read(uint8_t *buffer, quint32 size, STATUS *status)
 {
     if(!isOpen())
     {

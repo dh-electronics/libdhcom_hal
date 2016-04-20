@@ -24,8 +24,8 @@ class PhysMemImpl;
 class DHCOM_HAL PhysMem
 {
 public:
-	PhysMem(uint32_t physAddress, uint32_t length);
-    PhysMem(const char *devName, uint32_t physAddress, uint32_t length);
+	PhysMem(quint32 physAddress, quint32 length);
+    PhysMem(const char *devName, quint32 physAddress, quint32 length);
 	~PhysMem();
 
 	STATUS open();
@@ -34,8 +34,8 @@ public:
 	bool isOpen() const;
 
 	void * 			getAddress() const;
-	void * 			getAddress(uint32_t offset) const { return static_cast <uint8_t *> (getAddress()) + offset; }
-	uint32_t 		getLength() const;
+	void * 			getAddress(quint32 offset) const { return static_cast <uint8_t *> (getAddress()) + offset; }
+	quint32 		getLength() const;
 
 private:
     PhysMem(const PhysMem &) : impl_(NULL) {}
@@ -54,7 +54,7 @@ private:
  */
 
 
-/** \fn PhysMem::PhysMem(uint32_t physAddress, uint32_t length)
+/** \fn PhysMem::PhysMem(quint32 physAddress, quint32 length)
  *  \brief Creates the PhysMem object and remembers the related segment of the physical addresses.
  *  \param physAddress - start of the physical address space.
  *  \param length - the length of the address space in bytes.
@@ -90,7 +90,7 @@ private:
  */
 
 
-/** \fn uint32_t PhysMem::getLength() const;
+/** \fn quint32 PhysMem::getLength() const;
  *  \brief Get the length of the physical address segment.
  *  \return the length in bytes.
  */
