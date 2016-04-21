@@ -42,9 +42,9 @@ public:
 	bool isOpen() const;
 
 	STATUS selectSlave(uint16_t address);
-	STATUS read(uint8_t *buffer, quint32 count) const;
+    STATUS read(uint8_t *buffer, uint32_t count) const;
 	uint8_t read(STATUS *status = NULL) const;
-	STATUS write(const uint8_t *buffer, quint32 count);
+    STATUS write(const uint8_t *buffer, uint32_t count);
 	STATUS write(uint8_t byte);
 
 private:
@@ -100,7 +100,7 @@ private:
  */
 
 
-/** \fn STATUS I2CBus::read(uint8_t *buffer, quint32 count) const;
+/** \fn STATUS I2CBus::read(uint8_t *buffer, uint32_t count) const;
  *  \brief Reads a block of bytes from a slave.
  *  \param buffer - the pointer to receiving buffer, may not be NULL;
  *  \param count - the number of bytes to receive;
@@ -115,7 +115,7 @@ private:
  */
 
 
-/** \fn STATUS I2CBus::write(const uint8_t *buffer, quint32 count);
+/** \fn STATUS I2CBus::write(const uint8_t *buffer, uint32_t count);
  *  \brief Writes a block of bytes to the slave.
  *  \param buffer - the pointer to buffer with the data, may not be NULL;
  *  \param count - the number of bytes to send;

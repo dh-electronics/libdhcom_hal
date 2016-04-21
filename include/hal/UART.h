@@ -95,8 +95,8 @@ public:
 	STATUS 		open();
 	STATUS 		close();
 	bool		isOpen() const;
-	quint32 write(const uint8_t *buffer, quint32 size, STATUS *status = NULL);
-	quint32 read(uint8_t *buffer, quint32 size, STATUS *status = NULL);
+	uint32_t write(const uint8_t *buffer, uint32_t size, STATUS *status = NULL);
+	uint32_t read(uint8_t *buffer, uint32_t size, STATUS *status = NULL);
 
 	STATUS setPin(OPIN pin, bool value);
 	bool getPin(IPIN pin, STATUS *status = NULL) const;
@@ -159,7 +159,7 @@ private:
  */
 
 
-/** \fn quint32 UART::write(const uint8_t *buffer, quint32 length, STATUS *status = NULL)
+/** \fn uint32_t UART::write(const uint8_t *buffer, uint32_t length, STATUS *status = NULL)
  *  \brief Writes an array of bytes (at least partially) to the UART.
  *  \param buffer - the source array
  *  \param length - the number of bytes to write
@@ -170,7 +170,7 @@ private:
  */
 
 
-/** \fn quint32 UART::read(uint8_t *buffer, quint32 length, STATUS *status = NULL)
+/** \fn uint32_t UART::read(uint8_t *buffer, uint32_t length, STATUS *status = NULL)
  *  \brief Reads an array of bytes (at least partially) from the UART.
  *  \param buffer - the destination array, must be at least of size length
  *  \param length - the number of bytes to read

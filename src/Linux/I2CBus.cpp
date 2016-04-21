@@ -43,8 +43,8 @@ private:
     inline bool isOpen() const;
 
     inline STATUS selectSlave(uint16_t address);
-    inline STATUS read(uint8_t *buffer, quint32 count) const;
-    inline STATUS write(const uint8_t *buffer, quint32 count);
+    inline STATUS read(uint8_t *buffer, uint32_t count) const;
+    inline STATUS write(const uint8_t *buffer, uint32_t count);
 
     I2CBus::BUS 	bus_;
     int 			deviceHandle_;
@@ -99,7 +99,7 @@ STATUS I2CBus::selectSlave(uint16_t address)
 }
 
 
-STATUS I2CBus::read(uint8_t *buffer, quint32 count) const
+STATUS I2CBus::read(uint8_t *buffer, uint32_t count) const
 {
     return impl_->read(buffer, count);
 }
@@ -114,7 +114,7 @@ uint8_t I2CBus::read(STATUS *status) const
 }
 
 
-STATUS I2CBus::write(const uint8_t *buffer, quint32 count)
+STATUS I2CBus::write(const uint8_t *buffer, uint32_t count)
 {
     return impl_->write(buffer, count);
 }
@@ -197,7 +197,7 @@ STATUS I2CBusImpl::selectSlave(uint16_t address)
 }
 
 
-STATUS I2CBusImpl::read(uint8_t *buffer, quint32 count) const
+STATUS I2CBusImpl::read(uint8_t *buffer, uint32_t count) const
 {
     if(!isOpen())
         return STATUS_DEVICE_NOT_OPEN;
@@ -209,7 +209,7 @@ STATUS I2CBusImpl::read(uint8_t *buffer, quint32 count) const
 }
 
 
-STATUS I2CBusImpl::write(const uint8_t *buffer, quint32 count)
+STATUS I2CBusImpl::write(const uint8_t *buffer, uint32_t count)
 {
     if(!isOpen())
         return STATUS_DEVICE_NOT_OPEN;

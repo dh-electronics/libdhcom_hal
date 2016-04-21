@@ -24,9 +24,9 @@ class DHCOM_HAL I2CSlave
 public:
 	I2CSlave(I2CBus *bus, uint16_t address);
 
-	STATUS 	read(uint8_t *buffer, quint32 count) const;
+    STATUS 	read(uint8_t *buffer, uint32_t count) const;
 	uint8_t	read(STATUS *status = NULL) const;
-	STATUS 	write(const uint8_t *buffer, quint32 count);
+    STATUS 	write(const uint8_t *buffer, uint32_t count);
 	STATUS 	write(uint8_t byte);
 
 private:
@@ -54,7 +54,7 @@ private:
  */
 
 
-/** \fn STATUS I2CSlave::read(uint8_t *buffer, quint32 count) const;
+/** \fn STATUS I2CSlave::read(uint8_t *buffer, uint32_t count) const;
  *  \brief Reads a block of bytes from the I2C slave device.
  *  \param buffer - a pointer to the buffer to receive the incoming data.
  *  \param count - number of bytes to receive.
@@ -69,7 +69,7 @@ private:
  */
 
 
-/** \fn STATUS I2CSlave::write(const uint8_t *buffer, quint32 count);
+/** \fn STATUS I2CSlave::write(const uint8_t *buffer, uint32_t count);
  *  \brief Write a block of bytes to the I2C slave device.
  *  \param buffer - a pointer to the buffer from which to send the data;
  *  \param count - number of bytes to send.

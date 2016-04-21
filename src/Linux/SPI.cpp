@@ -39,12 +39,12 @@ private:
 	inline STATUS close();
 	inline bool isOpen() const;
 
-	inline STATUS setCommParams(SPI::MODE mode, uint8_t bits, quint32 freqHZ);
-	inline int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, quint32 count, STATUS *status);
+	inline STATUS setCommParams(SPI::MODE mode, uint8_t bits, uint32_t freqHZ);
+	inline int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status);
 
 	const SPI::DEVICE		device_;
 	const SPI::CHIPSELECT	chipSelect_;
-	quint32				freqHZ_;
+	uint32_t				freqHZ_;
 	uint8_t					bits_;
 	int 					deviceHandle_;
 
@@ -91,13 +91,13 @@ bool SPI::isOpen() const
 }
 
 
-STATUS SPI::setCommParams(MODE mode, uint8_t bits, quint32 freqHZ)
+STATUS SPI::setCommParams(MODE mode, uint8_t bits, uint32_t freqHZ)
 {
 	return impl_->setCommParams(mode, bits, freqHZ);
 }
 
 
-int SPI::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, quint32 count, STATUS *status)
+int SPI::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status)
 {
 	return impl_->transceive(outputBuffer, inputBuffer, count, status);
 }
@@ -164,7 +164,7 @@ bool SPIImpl::isOpen() const
 }
 
 
-STATUS SPIImpl::setCommParams(SPI::MODE mode, uint8_t bits, quint32 freqHZ)
+STATUS SPIImpl::setCommParams(SPI::MODE mode, uint8_t bits, uint32_t freqHZ)
 {
 	if(!isOpen())
 		return STATUS_DEVICE_NOT_OPEN;
@@ -192,7 +192,7 @@ STATUS SPIImpl::setCommParams(SPI::MODE mode, uint8_t bits, quint32 freqHZ)
 }
 
 
-int SPIImpl::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, quint32 length, STATUS *status)
+int SPIImpl::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t length, STATUS *status)
 {
 	if(!isOpen())
 	{
