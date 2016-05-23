@@ -51,6 +51,7 @@ private:
 
     const char *deviceName_;
     int 		deviceHandle_;
+    struct termios old_termios_;
     STATUS		hwStatus_;
 
     friend class UART;
@@ -298,6 +299,9 @@ STATUS UARTImpl::open()
     if(deviceHandle_ <= 0)
         return STATUS_DEVICE_OPEN_FAILED;
 
+    // backup termios settings
+    tcgetattr(deviceHandle_,&old_termios_);
+
     return STATUS_SUCCESS;
 }
 
@@ -306,6 +310,8 @@ STATUS UARTImpl::close()
 {
     if(isOpen())
     {
+        // apply old termios settings before close
+        ::tcsetattr(deviceHandle_,TCSANOW,&old_termios_);
         ::close(deviceHandle_);
         deviceHandle_ = -1;
     }
