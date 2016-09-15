@@ -23,6 +23,7 @@
 #include <termios.h>
 #include <errno.h>
 #include <string.h>
+#include <syslog.h>
 
 
 namespace dhcom
@@ -163,6 +164,7 @@ bool UART::getPin(UART::IPIN pin, STATUS *status) const
 UARTImpl::UARTImpl(const System &sys, UART::DEVICE device)
     : deviceHandle_(-1)
 {
+    openlog("DHCOM_HAL UART", LOG_PID|LOG_CONS|LOG_PERROR, LOG_SYSLOG);
     deviceName_ = sys.getUartDeviceName(device, &hwStatus_);
 }
 
@@ -172,12 +174,14 @@ UARTImpl::UARTImpl(const char *deviceName)
     , deviceHandle_(-1)
     , hwStatus_(STATUS_SUCCESS)
 {
+    openlog("DHCOM_HAL UART", LOG_PID|LOG_CONS|LOG_PERROR, LOG_SYSLOG);
 }
 
 
 UARTImpl::~UARTImpl()
 {
     close();
+    closelog();
 }
 
 
@@ -187,8 +191,10 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
         return STATUS_DEVICE_NOT_OPEN;
 
     struct termios params;
-    if (ioctl(deviceHandle_, TCGETS, &params) == -1)
+    if (0 != tcgetattr(deviceHandle_, &params)) {
+        syslog(LOG_ERR, "%s(): tcgetattr() failed: %s\n", __FUNCTION__, strerror(errno));
         return STATUS_DEVICE_CONFIG_FAILED;
+    }
 
     // resetting unnecessary flags
     params.c_cflag &= ~(CSIZE | PARODD | CSTOPB | CRTSCTS | PARENB | CBAUD);
@@ -280,8 +286,17 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
         break;
     }
 
-    if(0 > ioctl(deviceHandle_, TCSETS, &params))
+    tcflush(deviceHandle_, TCIFLUSH);
+    if(0 != tcsetattr(deviceHandle_, TCSANOW, &params)) {
+        syslog(LOG_ERR, "%s(): Failed to apply port settings: %s\n", __FUNCTION__, strerror(errno));
         return STATUS_DEVICE_CONFIG_FAILED;
+    }
+
+    // TCSAFLUSH does delete all input data
+    if(0 != tcsetattr(deviceHandle_, TCSAFLUSH, &params)) {
+        syslog(LOG_ERR, "%s(): Failed to setup port settings: %s\n", __FUNCTION__, strerror(errno));
+        return STATUS_DEVICE_CONFIG_FAILED;
+    }
 
     return STATUS_SUCCESS;
 }
@@ -292,12 +307,16 @@ STATUS UARTImpl::open()
     if(hwStatus_)
         return hwStatus_;
 
-    if(isOpen())
+    if(isOpen()) {
+        syslog(LOG_ERR, "%s():UART already open: %s\n", __FUNCTION__, deviceName_);
         return STATUS_DEVICE_ALREADY_OPEN;
+    }
 
     deviceHandle_ = ::open(deviceName_, O_RDWR | O_NOCTTY | O_NONBLOCK );
-    if(deviceHandle_ <= 0)
+    if(deviceHandle_ <= 0) {
+        syslog(LOG_ERR, "%s():Open UART failed: %s\n", __FUNCTION__, strerror(errno));
         return STATUS_DEVICE_OPEN_FAILED;
+    }
 
     // backup termios settings
     tcgetattr(deviceHandle_,&old_termios_);
@@ -360,21 +379,29 @@ uint32_t UARTImpl::read(uint8_t *buffer, uint32_t size, STATUS *status)
 
 STATUS UARTImpl::setPin(UART::OPIN pin, bool value)
 {
-    if(!isOpen())
+    if(!isOpen()) {
+        syslog(LOG_ERR, "%s(): UART not open: %s\n", __FUNCTION__, deviceName_);
         return STATUS_DEVICE_NOT_OPEN;
+    }
 
     int bit = pinToBit(pin);
     int status;
-    if(0 > ioctl(deviceHandle_, TIOCMGET, &status))
+    int ret = ioctl(deviceHandle_, TIOCMGET, &status);
+    if(0 > ret) {
+        syslog(LOG_ERR, "%s(): Failed reading modem control: %s\n", __FUNCTION__, strerror(errno));
         return STATUS_DEVICE_WRITE_FAILED;
+    }
 
     if(value)
         status |= bit;
     else
         status &= ~bit;
 
-    if(0 > ioctl(deviceHandle_, TIOCMSET, &status))
+    ret = ioctl(deviceHandle_, TIOCMSET, &status);
+    if(0 > ret) {
+        syslog(LOG_ERR, "%s(): Failed writing modem control %s\n", __FUNCTION__, strerror(errno));
         return STATUS_DEVICE_WRITE_FAILED;
+    }
 
     return STATUS_SUCCESS;
 }
@@ -382,16 +409,16 @@ STATUS UARTImpl::setPin(UART::OPIN pin, bool value)
 
 bool UARTImpl::getPin(UART::IPIN pin, STATUS *status) const
 {
-    if(!isOpen())
-    {
+    if(!isOpen()) {
+        syslog(LOG_ERR, "%s(): UART not open: %s\n", __FUNCTION__, deviceName_);
         if(status)
             *status = STATUS_DEVICE_NOT_OPEN;
         return false;
     }
 
     int result;
-    if(0 > ioctl(deviceHandle_, TIOCMGET, &result))
-    {
+    if(0 > ioctl(deviceHandle_, TIOCMGET, &result)) {
+        syslog(LOG_ERR, "%s(): ioctl(..,TIOCMGET ,..): %s\n", __FUNCTION__, strerror(errno));
         if(status)
             *status = STATUS_DEVICE_READ_FAILED;
         return false;
