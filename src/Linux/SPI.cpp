@@ -22,7 +22,9 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+#include <errno.h>
 #include <string.h>
+#include <syslog.h>
 
 
 namespace dhcom
@@ -111,30 +113,40 @@ SPIImpl::SPIImpl(SPI::DEVICE device, SPI::CHIPSELECT chipSelect)
 , chipSelect_(chipSelect)
 , deviceHandle_(-1)
 {
+    openlog("DHCOM_HAL SPI", LOG_PID|LOG_CONS|LOG_PERROR, LOG_SYSLOG);
 }
 
 
 SPIImpl::~SPIImpl()
 {
 	close();
+    closelog();
 }
 
 
 STATUS SPIImpl::open()
 {
-    if(!System().getHardware())
+    if(!System().getHardware()) {
+        syslog(LOG_ERR, "%s(): getHardware() failed!\n", __FUNCTION__);
         return STATUS_HARDWARE_UNDEFINED;
+    }
 
-	if(isOpen())
+    if(isOpen()) {
+        syslog(LOG_ERR, "%s():SPI already open!\n", __FUNCTION__);
 		return STATUS_DEVICE_ALREADY_OPEN;
+    }
 
     const char *deviceName = System().getSPIDeviceName(device_);
-    if(!deviceName)
+    if(!deviceName) {
+        syslog(LOG_ERR, "%s(): Requested device does not exist!\n", __FUNCTION__);
         return STATUS_DEVICE_DOESNT_EXIST;
+    }
 
 	deviceHandle_ = ::open(deviceName, O_RDWR);
-	if(deviceHandle_ < 0)
+    if(deviceHandle_ < 0) {
+        syslog(LOG_ERR, "%s():Open UART %s failed: %s\n", __FUNCTION__, deviceName, strerror(errno));
 		return STATUS_DEVICE_OPEN_FAILED;
+    }
 /*
 	if(0 > ioctl(deviceHandle_, SPI_IOC_RD_BITS_PER_WORD, &bits_))
 		return STATUS_READ_BITS_FAILED;
@@ -170,23 +182,31 @@ STATUS SPIImpl::setCommParams(SPI::MODE mode, uint8_t bits, uint32_t freqHZ)
 		return STATUS_DEVICE_NOT_OPEN;
 
 	/* spi mode	 */
-	if(0 > ioctl(deviceHandle_, SPI_IOC_WR_MODE, &mode))
+    if(0 > ioctl(deviceHandle_, SPI_IOC_WR_MODE, &mode)) {
+        syslog(LOG_ERR, "%s(): Failed to setup spi mode: %s\n", __FUNCTION__, strerror(errno));
 		return STATUS_DEVICE_CONFIG_FAILED;
+    }
 
 	/* bit order - always MSb first*/
 	uint8_t SPILSB = 0;
-	if(0 > ioctl(deviceHandle_, SPI_IOC_WR_LSB_FIRST, &SPILSB))
+    if(0 > ioctl(deviceHandle_, SPI_IOC_WR_LSB_FIRST, &SPILSB)) {
+        syslog(LOG_ERR, "%s(): Failed to set MSb first: %s\n", __FUNCTION__, strerror(errno));
 		return STATUS_DEVICE_CONFIG_FAILED;
+    }
 
 	/* bits per word - always 8*/
 	bits_ = bits;
-	if(0 > ioctl(deviceHandle_, SPI_IOC_WR_BITS_PER_WORD, &bits))
+    if(0 > ioctl(deviceHandle_, SPI_IOC_WR_BITS_PER_WORD, &bits)) {
+        syslog(LOG_ERR, "%s(): Failed to set bits per word: %s\n", __FUNCTION__, strerror(errno));
 		return STATUS_DEVICE_CONFIG_FAILED;
+    }
 
 	/* max speed Hz */
 	freqHZ_ = freqHZ;
-	if(0 > ioctl(deviceHandle_, SPI_IOC_WR_MAX_SPEED_HZ, &freqHZ))
+    if(0 > ioctl(deviceHandle_, SPI_IOC_WR_MAX_SPEED_HZ, &freqHZ)) {
+        syslog(LOG_ERR, "%s(): Failed to set max speed: %s\n", __FUNCTION__, strerror(errno));
 		return STATUS_DEVICE_CONFIG_FAILED;
+    }
 
 	return STATUS_SUCCESS;
 }
