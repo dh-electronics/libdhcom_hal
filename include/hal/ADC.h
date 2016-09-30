@@ -32,7 +32,7 @@ public:
 	};
 
 	ADC(const System &sys, CHANNEL channel);
-	~ADC();
+    ~ADC();
 
 	void open();
 	void close();

@@ -54,7 +54,7 @@ public:
 
 	GPIO(const System &sys, PORT port);
     explicit GPIO(uint16_t pinInternal);
-	~GPIO();
+    ~GPIO();
 
 	STATUS open();
 	STATUS close();
