@@ -94,7 +94,8 @@ public:
 
 	STATUS 		open();
 	STATUS 		close();
-	bool		isOpen() const;
+    bool		isOpen()    const;
+    int         getHandle() const;
     uint32_t write(const uint8_t *buffer, uint32_t size, STATUS *status = NULL);
     uint32_t read(uint8_t *buffer, uint32_t size, STATUS *status = NULL);
 

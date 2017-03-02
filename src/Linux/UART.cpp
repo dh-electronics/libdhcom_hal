@@ -43,7 +43,8 @@ private:
 
     inline STATUS 		open();
     inline STATUS 		close();
-    inline bool			isOpen() const;
+    inline bool			isOpen()    const;
+    inline int 			getHandle() const;
     inline uint32_t write(const uint8_t *buffer, uint32_t size, STATUS *status);
     inline uint32_t read(uint8_t *buffer, uint32_t size, STATUS *status);
 
@@ -131,6 +132,11 @@ STATUS UART::close()
 bool UART::isOpen() const
 {
     return impl_->isOpen();
+}
+
+int UART::getHandle() const
+{
+    return impl_->getHandle();
 }
 
 
@@ -342,6 +348,11 @@ STATUS UARTImpl::close()
 bool UARTImpl::isOpen() const
 {
     return deviceHandle_ > 0;
+}
+
+int UARTImpl::getHandle() const
+{
+    return deviceHandle_;
 }
 
 
