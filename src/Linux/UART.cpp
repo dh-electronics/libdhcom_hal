@@ -249,6 +249,12 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
     case UART::BAUDRATE_115200:
         portBaudRate = B115200;
         break;
+    case UART::BAUDRATE_230400:
+        portBaudRate = B230400;
+        break;
+    case UART::BAUDRATE_460800:
+        portBaudRate = B460800;
+        break;
     }
     cfsetispeed(&params, portBaudRate);
     cfsetospeed(&params, portBaudRate);
