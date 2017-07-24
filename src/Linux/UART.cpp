@@ -331,7 +331,7 @@ STATUS UARTImpl::open()
     }
 
     // backup termios settings
-    tcgetattr(deviceHandle_,&old_termios_);
+    tcgetattr(deviceHandle_, &old_termios_);
 
     return STATUS_SUCCESS;
 }
@@ -342,7 +342,7 @@ STATUS UARTImpl::close()
     if(isOpen())
     {
         // apply old termios settings before close
-        ::tcsetattr(deviceHandle_,TCSANOW,&old_termios_);
+        ::tcsetattr(deviceHandle_, TCSANOW, &old_termios_);
         ::close(deviceHandle_);
         deviceHandle_ = -1;
     }
