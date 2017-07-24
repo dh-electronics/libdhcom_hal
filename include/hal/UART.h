@@ -25,87 +25,87 @@ class UARTImpl;
 class DHCOM_HAL UART
 {
 public:
-        /// Enumeration of the UART devices
-        enum DEVICE
-        {
+    /// Enumeration of the UART devices
+    enum DEVICE
+    {
         DEVICE_UART1 = 0,   DEVICE_UART2,	DEVICE_UART3,
         DEVICE_UART4,       DEVICE_UART5,	DEVICE_UART6,
         DEVICE_UART7,       DEVICE_UART8,	DEVICE_UART9,
         DEVICE_UART10,      DEVICE_UART11,  DEVICE_UART12,
         DEVICE_UART13,      DEVICE_UART14,  DEVICE_UART15,
         DEVICE_UART16,      DEVICE_UART17,  DEVICE_UART18,
-                DEVICE_UART19,
-        };
+        DEVICE_UART19,
+    };
 
-        /// Enumeration of supported baud rates
-        enum BAUDRATE
-        {
-                BAUDRATE_110,	BAUDRATE_300,
-                BAUDRATE_600, 	BAUDRATE_1200, 	BAUDRATE_2400,
-                BAUDRATE_4800,	BAUDRATE_9600, 	BAUDRATE_19200, BAUDRATE_38400,
-                BAUDRATE_57600,	BAUDRATE_115200, BAUDRATE_230400, BAUDRATE_460800
-        };
+    /// Enumeration of supported baud rates
+    enum BAUDRATE
+    {
+        BAUDRATE_110,	BAUDRATE_300,
+        BAUDRATE_600, 	BAUDRATE_1200, 	BAUDRATE_2400,
+        BAUDRATE_4800,	BAUDRATE_9600, 	BAUDRATE_19200, BAUDRATE_38400,
+        BAUDRATE_57600,	BAUDRATE_115200, BAUDRATE_230400, BAUDRATE_460800
+    };
 
-        /// Enumeration of supported parity bit configurations
-        enum PARITY
-        {
+    /// Enumeration of supported parity bit configurations
+    enum PARITY
+    {
 #undef PARITY_NONE
 #undef PARITY_ODD
 #undef PARITY_EVEN
-                PARITY_NONE, PARITY_ODD, PARITY_EVEN,
-        };
+        PARITY_NONE, PARITY_ODD, PARITY_EVEN,
+    };
 
-        /// Enumeration of supported stop bit configurations
-        enum STOPBITS
-        {
-                STOPBITS_1,		///< one stop bit
-                STOPBITS_2,     ///< two stop bits
-        };
+    /// Enumeration of supported stop bit configurations
+    enum STOPBITS
+    {
+        STOPBITS_1,		///< one stop bit
+        STOPBITS_2,     ///< two stop bits
+    };
 
-        /// Enumeration of supported flow control methods
-        enum FLOWCONTROL
-        {
-                FLOW_NONE,		///< No flow control
-                FLOW_RTS_CTS,	///< Hardware flow control
-                FLOW_XON_XOFF,	///< Software flow control
-        };
+    /// Enumeration of supported flow control methods
+    enum FLOWCONTROL
+    {
+        FLOW_NONE,		///< No flow control
+        FLOW_RTS_CTS,	///< Hardware flow control
+        FLOW_XON_XOFF,	///< Software flow control
+    };
 
-        /// Enumeration of UART pins, which can be used as discrete inputs
-        enum IPIN
-        {
-                IPIN_CD, 	///< the carrier detect pin
-                IPIN_CTS,	///< the Clear To Send (CTS) pin
-                IPIN_DSR,	///< the DSR pin
-                IPIN_RI,	///< the Ring Incoming pin
-        };
+    /// Enumeration of UART pins, which can be used as discrete inputs
+    enum IPIN
+    {
+        IPIN_CD, 	///< the carrier detect pin
+        IPIN_CTS,	///< the Clear To Send (CTS) pin
+        IPIN_DSR,	///< the DSR pin
+        IPIN_RI,	///< the Ring Incoming pin
+    };
 
-        /// Enumeration of UART pins, which can be used as discrete outputs
-        enum OPIN
-        {
-                OPIN_RTS,	///< the Ready To Send (RTS) pin
-                OPIN_DTR,	///< the DTR pin
-        };
+    /// Enumeration of UART pins, which can be used as discrete outputs
+    enum OPIN
+    {
+        OPIN_RTS,	///< the Ready To Send (RTS) pin
+        OPIN_DTR,	///< the DTR pin
+    };
 
-        UART(const System &sys, DEVICE device);
+    UART(const System &sys, DEVICE device);
     explicit UART(const char *deviceName);
-        ~UART();
+    ~UART();
 
-        STATUS setCommParams(BAUDRATE baudRate, PARITY parity, STOPBITS stopBits, FLOWCONTROL flowControl);
+    STATUS setCommParams(BAUDRATE baudRate, PARITY parity, STOPBITS stopBits, FLOWCONTROL flowControl);
 
-        STATUS 		open();
-        STATUS 		close();
+    STATUS 		open();
+    STATUS 		close();
     bool		isOpen()    const;
     int         getHandle() const;
     uint32_t write(const uint8_t *buffer, uint32_t size, STATUS *status = NULL);
     uint32_t read(uint8_t *buffer, uint32_t size, STATUS *status = NULL);
 
-        STATUS setPin(OPIN pin, bool value);
-        bool getPin(IPIN pin, STATUS *status = NULL) const;
+    STATUS setPin(OPIN pin, bool value);
+    bool getPin(IPIN pin, STATUS *status = NULL) const;
 
 private:
     UART(const UART &) : impl_(NULL) {}
 
-        UARTImpl * const impl_;
+    UARTImpl * const impl_;
 };
 
 

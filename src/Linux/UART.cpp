@@ -324,7 +324,7 @@ STATUS UARTImpl::open()
         return STATUS_DEVICE_ALREADY_OPEN;
     }
 
-    deviceHandle_ = ::open(deviceName_, O_RDWR | O_NOCTTY | O_NONBLOCK );
+    deviceHandle_ = ::open(deviceName_, O_RDWR | O_NOCTTY); //  | O_NONBLOCK
     if(deviceHandle_ <= 0) {
         syslog(LOG_ERR, "%s():Open UART failed: %s\n", __FUNCTION__, strerror(errno));
         return STATUS_DEVICE_OPEN_FAILED;
@@ -380,16 +380,41 @@ uint32_t UARTImpl::write(const uint8_t *buffer, uint32_t size, STATUS *status)
 
 uint32_t UARTImpl::read(uint8_t *buffer, uint32_t size, STATUS *status)
 {
-    if(!isOpen())
+    STATUS stat;
+    ssize_t result;
+    do
     {
-        if(status)
-            *status = STATUS_DEVICE_NOT_OPEN;
-        return -1;
-    }
+        if(!isOpen())
+        {
+            stat = STATUS_DEVICE_NOT_OPEN;
+            result = 0;
+            break;
+        }
 
-    ssize_t result = ::read(deviceHandle_, buffer, size);
+        int bytes_avail;
+        if(0 != ioctl(deviceHandle_, FIONREAD, &bytes_avail))
+        {
+            stat = STATUS_DEVICE_READ_FAILED;
+            result = 0;
+            break;
+        }
+
+        if(!bytes_avail)
+        {
+            stat = STATUS_SUCCESS;
+            result = 0;
+            break;
+        }
+        if(uint32_t(bytes_avail) > size)
+            bytes_avail = size;
+
+        result = ::read(deviceHandle_, buffer, bytes_avail);
+        stat = result == bytes_avail ? STATUS_SUCCESS : STATUS_DEVICE_READ_FAILED;
+    }
+    while(false);
+
     if(status)
-        *status = (result >= 0) ? STATUS_SUCCESS : STATUS_DEVICE_READ_FAILED;
+        *status = stat;
     return result;
 }
 
