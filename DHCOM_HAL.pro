@@ -47,18 +47,9 @@ DHCOM_AM35 | DHCOM_AM33 | DHCOM_iMX25 | DHCOM_iMX6 | DHCOM_iMX6_rev200 | DHCOM_i
 	include/hal/SPI.h \
 	include/hal/ADC.h
 
-        debian_package_path = /tmp/dhcom-hal
-        debian.path = $$debian_package_path
-        debian.commands = \
-        svn export --force $$PWD/DEBIAN_PACKAGE $$debian_package_path ;\
-        mkdir -p $$debian_package_path/usr/lib ;\
-        cd $$OUT_PWD ;\
-        cp -d lib* $$debian_package_path/usr/lib ;\
-        dpkg -b $$debian_package_path dhcom-hal.deb ;\
-        rm -rf $$debian_package_path
-
-INSTALLS = debian
 }
+
+
 
 DHCOM_iMX25 {
 	HEADERS += src/$$DHCOM_HAL_IMPL/imx_adc.h
@@ -91,3 +82,13 @@ DEBIAN_PACKAGE/DEBIAN/postinst \
 DEBIAN_PACKAGE/DEBIAN/preinst
 
 
+debian_package_path = /tmp/dhcom-hal
+debian.path = $$debian_package_path
+debian.commands = \
+svn export --force $$PWD/DEBIAN_PACKAGE $$debian_package_path ;\
+mkdir -p $$debian_package_path/usr/lib ;\
+cd $$OUT_PWD ;\
+cp -d lib* $$debian_package_path/usr/lib ;\
+dpkg -b $$debian_package_path dhcom-hal.deb ;\
+rm -rf $$debian_package_path
+INSTALLS = debian
