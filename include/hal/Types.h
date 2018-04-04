@@ -45,30 +45,30 @@ namespace dhcom
  */
 enum STATUS
 {
-	// system responses
-	STATUS_SUCCESS = 0,					///< Operation completed successfully
-	STATUS_HARDWARE_UNDEFINED,			///< The target hardware was not defined, create the System object with the hardware type
-	STATUS_HARDWARE_ALREADY_DEFINED,	///< The target hardware was already defined, no way to re-define
-	STATUS_HARDWARE_UNSUPPORTED,		///< The requested target hardware is unsupported by this library built
-	STATUS_DEVICE_DOESNT_EXIST,			///< The requested I/O device does not exist for this target hardware
+    // system responses
+    STATUS_SUCCESS = 0,					///< Operation completed successfully
+    STATUS_HARDWARE_UNDEFINED,			///< The target hardware was not defined, create the System object with the hardware type
+    STATUS_HARDWARE_ALREADY_DEFINED,	///< The target hardware was already defined, no way to re-define
+    STATUS_HARDWARE_UNSUPPORTED,		///< The requested target hardware is unsupported by this library built
+    STATUS_DEVICE_DOESNT_EXIST,			///< The requested I/O device does not exist for this target hardware
 
-	// common device responses
-	STATUS_DEVICE_OPEN_FAILED,			///< opening I/O device failed
-	STATUS_DEVICE_CLOSE_FAILED,			///< closing I/O failed
-	STATUS_DEVICE_NOT_OPEN,				///< device must be open to perform the requested operation
-	STATUS_DEVICE_ALREADY_OPEN,			///< trying to open the already open device
-	STATUS_DEVICE_READ_FAILED,			///< reading from the device failed
-	STATUS_DEVICE_WRITE_FAILED,			///< writing to the device failed
-	STATUS_DEVICE_CONFIG_FAILED,		///< attempt to configure the device failed (parameters invalid)
+    // common device responses
+    STATUS_DEVICE_OPEN_FAILED,			///< opening I/O device failed
+    STATUS_DEVICE_CLOSE_FAILED,			///< closing I/O failed
+    STATUS_DEVICE_NOT_OPEN,				///< device must be open to perform the requested operation
+    STATUS_DEVICE_ALREADY_OPEN,			///< trying to open the already open device
+    STATUS_DEVICE_READ_FAILED,			///< reading from the device failed
+    STATUS_DEVICE_WRITE_FAILED,			///< writing to the device failed
+    STATUS_DEVICE_CONFIG_FAILED,		///< attempt to configure the device failed (parameters invalid)
 
-	// i2c specific
-	STATUS_I2C_SLAVE_SELECT_FAILED,		///< selecting i2c slave failed
+    // i2c specific
+    STATUS_I2C_SLAVE_SELECT_FAILED,		///< selecting i2c slave failed
 
-	// gpio specific
+    // gpio specific
 
-	// spi specific
+    // spi specific
 
-	// uart specific
+    // uart specific
 };
 
 
