@@ -25,42 +25,43 @@ class System;
 class DHCOM_HAL SPI
 {
 public:
-	/// SPI bus enumeration
-	enum DEVICE
-	{
+    /// SPI bus enumeration
+    enum DEVICE
+    {
         DEVICE_SPI1 = 0,    ///< DHCOM SPI1 is used
         DEVICE_SPI2         ///< DHCOM SPI2 is used
-	};
+    };
 
     /// CS signal enumeration (reserved for future, in fact - is ignored because only a single CS is supported by the DHCOM hardware)
-	enum CHIPSELECT
-	{
-		CS_0 = 0, ///< Select spi slave 1
-		CS_1 = 1, ///< Select spi slave 2
-		CS_2 = 2, ///< Select spi slave 3
-	};
+    enum CHIPSELECT
+    {
+        CS_0 = 0, ///< Select spi slave 1
+        CS_1 = 1, ///< Select spi slave 2
+        CS_2 = 2, ///< Select spi slave 3
+    };
 
-	/// SPI mode enumeration
-	enum MODE
-	{
-		MODE_0,	MODE_1,	MODE_2,	MODE_3,
-	};
+    /// SPI mode enumeration
+    enum MODE
+    {
+        MODE_0,	MODE_1,	MODE_2,	MODE_3,
+    };
 
     SPI(DEVICE device, CHIPSELECT chipSelect);  //< uses default system data
     SPI(const System &sys, DEVICE device, CHIPSELECT chipSelect = CS_0);
-	~SPI();
+    SPI(const char *devname);
+    ~SPI();
 
-	STATUS open();
-	STATUS close();
-	bool isOpen() const;
+    STATUS open();
+    STATUS close();
+    bool isOpen() const;
 
-	STATUS setCommParams(MODE mode, uint8_t bits, uint32_t freqHZ);
-	int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status = NULL);
+    STATUS setCommParams(MODE mode, uint8_t bits, uint32_t freqHZ);
+    int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status = NULL);
 
 private:
     SPI(const SPI &) : impl_(NULL) {}
 
-	SPIImpl * const 	impl_;
+    SPIImpl * const 	impl_;
 };
 
 
