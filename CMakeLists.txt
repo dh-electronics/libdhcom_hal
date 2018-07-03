@@ -18,8 +18,10 @@ include_directories(
 if(${OS} STREQUAL 'win32')
     add_definitions(-DDHCOM_HAL=__declspec(dllexport))
     set(IMPL_DIR Win32)
+    set(DHCOM_HAL ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.dll PARENT_SCOPE)
 else()
     set(IMPL_DIR Linux)
+    set(DHCOM_HAL ${CMAKE_CURRENT_BINARY_DIR}/lib${PROJECT_NAME}.so PARENT_SCOPE)
 endif()
 
 
@@ -68,6 +70,6 @@ if(NOT ${HW} STREQUAL 'x86')
 endif()
 
 
-add_library(DHCOM_HAL SHARED ${SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
 install_targets(/lib ${PROJECT_NAME})
 
