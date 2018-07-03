@@ -1,6 +1,6 @@
 TARGET = DHCOM_HAL
 TEMPLATE = lib
-CONFIG -= qt 
+CONFIG -= qt
 CONFIG += dll
 
 # Defining build type dependent settings
