@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 include(CPack)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
 set(CPACK_DEBIAN_PACKAGE_VERSION "0.1" CACHE STRING "Version of the Debian Package")
+set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
 
 
 set(HW "DHCOM_iMX6" CACHE STRING "HW to build for: DHCOM_AM35|DHCOM_AM33|DHCOM_iMX25|DHCOM_iMX6|DHCOM_iMX6_rev200|DHCOM_iMX6_rev300|x86")
