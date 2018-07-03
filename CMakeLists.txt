@@ -6,8 +6,8 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de
 set(CPACK_DEBIAN_PACKAGE_VERSION "0.1" CACHE STRING "Version of the Debian Package")
 
 
-set(HW 'DHCOM_iMX6' CACHE STRING "HW to build for: DHCOM_AM35|DHCOM_AM33|DHCOM_iMX25|DHCOM_iMX6|DHCOM_iMX6_rev200|DHCOM_iMX6_rev300|x86")
-set(OS 'linux-arm' CACHE STRING "OS to build for: linux-arm|linux|win32")
+set(HW "DHCOM_iMX6" CACHE STRING "HW to build for: DHCOM_AM35|DHCOM_AM33|DHCOM_iMX25|DHCOM_iMX6|DHCOM_iMX6_rev200|DHCOM_iMX6_rev300|x86")
+set(OS "linux-arm" CACHE STRING "OS to build for: linux-arm|linux|win32")
 
 
 include_directories(
@@ -18,26 +18,24 @@ include_directories(
 if(${OS} STREQUAL 'win32')
     add_definitions(-DDHCOM_HAL=__declspec(dllexport))
     set(IMPL_DIR Win32)
-    set(DHCOM_HAL ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.dll PARENT_SCOPE)
 else()
     set(IMPL_DIR Linux)
-    set(DHCOM_HAL ${CMAKE_CURRENT_BINARY_DIR}/lib${PROJECT_NAME}.so PARENT_SCOPE)
 endif()
 
 
-if(${HW} STREQUAL 'x86')
+if(${HW} STREQUAL "x86")
     add_definitions(-DUSE_HARDWARE_PC)
-elseif(${HW} STREQUAL 'DHCOM_AM35')
+elseif(${HW} STREQUAL "DHCOM_AM35")
     add_definitions(-DUSE_HARDWARE_DHCOM_AM35)
-elseif(${HW} STREQUAL 'DHCOM_AM33')
+elseif(${HW} STREQUAL "DHCOM_AM33")
     add_definitions(-DUSE_HARDWARE_DHCOM_AM33)
-elseif(${HW} STREQUAL 'DHCOM_iMX25')
+elseif(${HW} STREQUAL "DHCOM_iMX25")
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX25)
-elseif(${HW} STREQUAL 'DHCOM_iMX6_rev200')
+elseif(${HW} STREQUAL "DHCOM_iMX6_rev200")
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6_REV200)
-elseif(${HW} STREQUAL 'DHCOM_iMX6_rev300')
+elseif(${HW} STREQUAL "DHCOM_iMX6_rev300")
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6_REV300)
-elseif(${HW} STREQUAL 'DHCOM_iMX6')
+elseif(${HW} STREQUAL "DHCOM_iMX6")
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6)
 endif()
 
