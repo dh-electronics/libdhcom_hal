@@ -7,12 +7,19 @@ set(CPACK_DEBIAN_PACKAGE_VERSION "0.1" CACHE STRING "Version of the Debian Packa
 set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
 
 
-set(HW "DHCOM_AM35;DHCOM_AM33;DHCOM_iMX25;DHCOM_iMX6;DHCOM_iMX6_rev200;DHCOM_iMX6_rev300;x86" CACHE STRING "HW to build for")
+set(HW_DHCOM_iMX6 ON CACHE BOOL "Build for DHCOM_IMX6")
+set(HW_DHCOM_iMX6_rev200 OFF CACHE BOOL "Build for DHCOM_iMX6_rev200")
+set(HW_DHCOM_iMX6_rev300 OFF CACHE BOOL "Build for DHCOM_iMX6_rev300")
+set(HW_DHCOM_iMX25 ON CACHE BOOL "Build for DHCOM_iMX25")
+set(HW_DHCOM_AM35 ON CACHE BOOL "Build for DHCOM_AM35")
+set(HW_DHCOM_AM33 ON CACHE BOOL "Build for DHCOM_AM33")
+set(HW_X86 OFF CACHE BOOL "Build for X86")
+
 set(OS "linux-arm" CACHE STRING "OS to build for: linux-arm|linux|win32")
-
-
-include_directories(
-    include
+set_property(CACHE OS PROPERTY STRINGS
+    linux-arm
+    linux
+    win32
 )
 
 
@@ -23,6 +30,10 @@ else()
     set(IMPL_DIR Linux)
 endif()
 
+
+include_directories(include)
+
+
 list(APPEND SOURCES
     src/${IMPL_DIR}/System.cpp
     src/${IMPL_DIR}/UART.cpp
@@ -32,8 +43,8 @@ list(APPEND SOURCES
     include/hal/UART.h
 )
 
-list(FIND HW "x86" IDX)
-if(${IDX} GREATER -1)
+
+if(${HW_X86})
     add_definitions(-DUSE_HARDWARE_PC)
 else()
     list(APPEND SOURCES
@@ -52,33 +63,27 @@ else()
     )
 endif()
 
-list(FIND HW "DHCOM_AM35" IDX)
-if(${IDX} GREATER -1)
+if(${HW_DHCOM_AM35})
     add_definitions(-DUSE_HARDWARE_DHCOM_AM35)
 endif()
 
-list(FIND HW "DHCOM_AM33" IDX)
-if(${IDX} GREATER -1)
+if(${HW_DHCOM_AM33})
     add_definitions(-DUSE_HARDWARE_DHCOM_AM33)
 endif()
 
-list(FIND HW "DHCOM_iMX25" IDX)
-if(${IDX} GREATER -1)
+if(${HW_DHCOM_iMX25})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX25)
 endif()
 
-list(FIND HW "DHCOM_iMX6_rev200" IDX)
-if(${IDX} GREATER -1)
+if(${HW_DHCOM_iMX6_rev200})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6_REV200)
 endif()
 
-list(FIND HW "DHCOM_iMX6_rev300" IDX)
-if(${IDX} GREATER -1)
+if(${HW_DHCOM_iMX6_rev300})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6_REV300)
 endif()
 
-list(FIND HW "DHCOM_iMX6" IDX)
-if(${IDX} GREATER -1)
+if(${HW_DHCOM_iMX6})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6)
 endif()
 
