@@ -297,10 +297,10 @@ STATUS UARTImpl::open()
     if(isOpen())
         return STATUS_DEVICE_ALREADY_OPEN;
 
-    WCHAR wDeviceName[24];
-    mbstowcs_s(NULL, wDeviceName, sizeof(wDeviceName)/sizeof(WCHAR), deviceName_, _TRUNCATE);
+    // WCHAR wDeviceName[24];
+    // mbstowcs_s(NULL, wDeviceName, sizeof(wDeviceName)/sizeof(WCHAR), deviceName_, _TRUNCATE);
 
-    deviceHandle_ = CreateFile( wDeviceName
+    deviceHandle_ = CreateFile( deviceName_
                                 ,GENERIC_READ | GENERIC_WRITE
                                 ,0
                                 ,NULL

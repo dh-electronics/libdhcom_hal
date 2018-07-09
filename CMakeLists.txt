@@ -23,8 +23,8 @@ set_property(CACHE OS PROPERTY STRINGS
 )
 
 
-if(${OS} STREQUAL 'win32')
-    add_definitions(-DDHCOM_HAL=__declspec(dllexport))
+if(${OS} STREQUAL "win32")
+    add_definitions("-DDHCOM_HAL=__declspec(dllexport)")
     set(IMPL_DIR Win32)
 else()
     set(IMPL_DIR Linux)
