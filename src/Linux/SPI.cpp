@@ -45,10 +45,10 @@ private:
     inline STATUS setCommParams(SPI::MODE mode, uint8_t bits, uint32_t freqHZ);
     inline int transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t count, STATUS *status);
 
-    const char *            deviceName_;
-    int 					deviceHandle_;
-    uint32_t				freqHZ_;
-    uint8_t					bits_;
+    const char *        deviceName_;
+    int 		deviceHandle_;
+    uint32_t		freqHZ_;
+    uint8_t		bits_;
 
     friend class SPI;
 };
@@ -118,8 +118,13 @@ SPIImpl::SPIImpl(SPI::DEVICE device, SPI::CHIPSELECT chipSelect)
     : deviceName_(NULL)
     , deviceHandle_(-1)
 {
-    deviceName_ = System().getSPIDeviceName(device);
     openlog("DHCOM_HAL SPI", LOG_PID|LOG_CONS|LOG_PERROR, LOG_SYSLOG);
+    if(!System().getHardware())
+    {
+        syslog(LOG_ERR, "%s(): getHardware() failed!\n", __FUNCTION__);
+        return;
+    }
+    deviceName_ = System().getSPIDeviceName(device);
 }
 
 
@@ -141,23 +146,21 @@ SPIImpl::~SPIImpl()
 
 STATUS SPIImpl::open()
 {
-    if(!System().getHardware()) {
-        syslog(LOG_ERR, "%s(): getHardware() failed!\n", __FUNCTION__);
-        return STATUS_HARDWARE_UNDEFINED;
-    }
-
-    if(isOpen()) {
+    if(isOpen())
+    {
         syslog(LOG_ERR, "%s():SPI already open!\n", __FUNCTION__);
         return STATUS_DEVICE_ALREADY_OPEN;
     }
 
-    if(!deviceName_) {
+    if(!deviceName_)
+    {
         syslog(LOG_ERR, "%s(): Requested device does not exist!\n", __FUNCTION__);
         return STATUS_DEVICE_DOESNT_EXIST;
     }
 
     deviceHandle_ = ::open(deviceName_, O_RDWR);
-    if(deviceHandle_ < 0) {
+    if(deviceHandle_ < 0)
+    {
         syslog(LOG_ERR, "%s():Open spi %s failed: %s\n", __FUNCTION__, deviceName_, strerror(errno));
         return STATUS_DEVICE_OPEN_FAILED;
     }
