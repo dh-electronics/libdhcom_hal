@@ -15,7 +15,7 @@ static const uint8_t AM33_GPIOpins[] = {
     20, 115, 116, 65, 114, 112, 111, 7, 113, 117, 57, 56, 55, 54, 51, 50, 49, };
 
 static const char *AM33_UARTS[] = {
-    "/dev/ttyO0", "/dev/ttyO1", };
+    "/dev/ttyS0", "/dev/ttyS1", };
 
 static const char *AM33_I2C_BUS[] = {
     "/dev/i2c-2", NULL, "/dev/i2c-0" };
