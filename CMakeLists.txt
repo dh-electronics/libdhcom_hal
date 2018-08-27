@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 include(CPack)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
-set(CPACK_DEBIAN_PACKAGE_VERSION "0.2" CACHE STRING "Version of the Debian Package")
+set(CPACK_DEBIAN_PACKAGE_VERSION "0.3" CACHE STRING "Version of the Debian Package")
 set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
 
 
