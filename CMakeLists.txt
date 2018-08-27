@@ -89,8 +89,6 @@ endif()
 
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
-install(
-    TARGETS ${PROJECT_NAME}
-    DESTINATION lib
-)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
+install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
 
