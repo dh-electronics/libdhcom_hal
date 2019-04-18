@@ -90,5 +90,10 @@ endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
+
+# Expose DHCOM_HAL's public includes to other subprojects through cache variable
+set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
 
