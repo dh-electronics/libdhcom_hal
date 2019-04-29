@@ -25,6 +25,8 @@
 //#define USE_HARDWARE_DHCOM_IMX6
 /// Use this definition if you want the library to support DHCOM-iMX25
 //#define USE_HARDWARE_DHCOM_IMX25
+/// Use this definition if you want the library to support DHCOM-iMX6ULL
+//#define USE_HARDWARE_DHCOM_IMX6ULL
 /// Use this definition if you want the library to support DHCOM-AM35xx
 //#define USE_HARDWARE_DHCOM_AM35
 /// Use this definition if you want the library to support x86 PC
@@ -51,6 +53,7 @@ public:
         HARDWARE_DHCOM_IMX6_REV300  = 4,	///< Running on DHCOM-iMX6 module, revision 300
         HARDWARE_DHCOM_IMX6         = HARDWARE_DHCOM_IMX6_REV300,   ///< Running on DHCOM-iMX6 module, shortcut for revision 300
         HARDWARE_DHCOM_AM33         = 5,	///< Running on DHCOM-AM33 module
+        HARDWARE_DHCOM_IMX6ULL      = 6,	///< Running on DHCOM-iMX6ULL module
         HARDWARE_PC             = 100   ///< Running on x86_32 or x86_64 PC
 	};
 

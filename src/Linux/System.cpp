@@ -33,6 +33,7 @@ struct HardwareProps
 #include "HardwareProps_AM33.hpp"
 #include "HardwareProps_IMX25.hpp"
 #include "HardwareProps_IMX6.hpp"
+#include "HardwareProps_IMX6ULL.hpp"
 #include "HardwareProps_PC.hpp"
 
 
@@ -68,6 +69,9 @@ STATUS System::setHardware(System::HARDWARE hardware)
         break;
     case HARDWARE_DHCOM_IMX6_REV300:
         hwProps_ = IMX6_REV300_Props;
+        break;
+    case HARDWARE_DHCOM_IMX6ULL:
+        hwProps_ = IMX6ULL_Props;
         break;
 	case HARDWARE_PC:
 		hwProps_ = PC_Props;

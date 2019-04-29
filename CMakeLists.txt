@@ -3,13 +3,14 @@ cmake_minimum_required(VERSION 2.8)
 
 include(CPack)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
-set(CPACK_DEBIAN_PACKAGE_VERSION "0.3" CACHE STRING "Version of the Debian Package")
+set(CPACK_DEBIAN_PACKAGE_VERSION "0.4" CACHE STRING "Version of the Debian Package")
 set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
 
 
 set(HW_DHCOM_iMX6 ON CACHE BOOL "Build for DHCOM_IMX6")
 set(HW_DHCOM_iMX6_rev200 OFF CACHE BOOL "Build for DHCOM_iMX6_rev200")
 set(HW_DHCOM_iMX6_rev300 OFF CACHE BOOL "Build for DHCOM_iMX6_rev300")
+set(HW_DHCOM_iMX6ULL ON CACHE BOOL "Build for DHCOM_IMX6ULL")
 set(HW_DHCOM_iMX25 ON CACHE BOOL "Build for DHCOM_iMX25")
 set(HW_DHCOM_AM35 ON CACHE BOOL "Build for DHCOM_AM35")
 set(HW_DHCOM_AM33 ON CACHE BOOL "Build for DHCOM_AM33")
@@ -87,6 +88,9 @@ if(${HW_DHCOM_iMX6})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6)
 endif()
 
+if(${HW_DHCOM_iMX6ULL})
+    add_definitions(-DUSE_HARDWARE_DHCOM_IMX6ULL)
+endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
