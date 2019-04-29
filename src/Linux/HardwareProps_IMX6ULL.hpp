@@ -12,7 +12,7 @@
 #   warning "Including HARDWARE_DHCOM_IMX6ULL"
 
 static const uint8_t IMX6ULL_GPIOpins[] = {
-    160, 161, 162, 163, 164, 167, 168, 169, 50, 148, 146, 145, 147, 156, 155, 154, 153, 152, 151, 150, 149 };
+    128, 129, 130, 131, 132, 135, 136, 137, 18, 116, 114, 113, 115, 124, 123, 122, 121, 120, 119, 118, 117 };
  /* A    B    C    D    E    F    G    H    I   J    K    L    M    N    O    P    Q    R    S    T    U*/
 
 static const char *IMX6ULL_UARTS[] = {
