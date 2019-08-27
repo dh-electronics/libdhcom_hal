@@ -1,12 +1,6 @@
 project(DHCOM_HAL)
 cmake_minimum_required(VERSION 2.8)
 
-include(CPack)
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
-set(CPACK_DEBIAN_PACKAGE_VERSION "0.4" CACHE STRING "Version of the Debian Package")
-set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
-
-
 set(HW_DHCOM_iMX6 ON CACHE BOOL "Build for DHCOM_IMX6")
 set(HW_DHCOM_iMX6_rev200 OFF CACHE BOOL "Build for DHCOM_iMX6_rev200")
 set(HW_DHCOM_iMX6_rev300 OFF CACHE BOOL "Build for DHCOM_iMX6_rev300")
@@ -93,11 +87,26 @@ if(${HW_DHCOM_iMX6ULL})
 endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.1)
 
 # Expose DHCOM_HAL's public includes to other subprojects through cache variable
 set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
     CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
+
+# let package version be equal to target version
+get_target_property(CPACK_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
+
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
+get_target_property(CPACK_DEBIAN_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
+set(CPACK_DEBIAN_PACKAGE_RELEASE "1" CACHE STRING "Version of Package not the content")
+set(CPACK_DEBIAN_PACKAGE_ARCHITECURE armhf)
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18)")
+set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "DHCOM Hardware Abstraction Library")
+set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/DEBIAN_PACKAGE/changelog;${CMAKE_CURRENT_SOURCE_DIR}/DEBIAN_PACKAGE/preinst;${CMAKE_CURRENT_SOURCE_DIR}/DEBIAN_PACKAGE/postinst")
+include(CPack)
 
