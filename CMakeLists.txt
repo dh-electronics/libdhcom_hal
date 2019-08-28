@@ -87,7 +87,7 @@ if(${HW_DHCOM_iMX6ULL})
 endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.1)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
 
 # Expose DHCOM_HAL's public includes to other subprojects through cache variable
 set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
@@ -95,13 +95,13 @@ set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
 
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
 
-# let package version be equal to target version
-get_target_property(CPACK_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
+set(CPACK_PACKAGE_VERSION 1.1)
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
 get_target_property(CPACK_DEBIAN_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
-set(CPACK_DEBIAN_PACKAGE_RELEASE "1" CACHE STRING "Version of Package not the content")
+set(CPACK_DEBIAN_PACKAGE_VERSION 1.1)
+set(CPACK_DEBIAN_PACKAGE_RELEASE "2" CACHE STRING "Version of Package not the content")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECURE armhf)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18)")
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
