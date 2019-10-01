@@ -32,6 +32,9 @@ include_directories(include)
 list(APPEND SOURCES
     src/${IMPL_DIR}/System.cpp
     src/${IMPL_DIR}/UART.cpp
+)
+
+list(APPEND INCLUDES
     include/DHCOM_HAL.h
     include/hal/Types.h
     include/hal/System.h
@@ -49,6 +52,8 @@ else()
         src/${IMPL_DIR}/PhysMem.cpp
         src/${IMPL_DIR}/SPI.cpp
         src/${IMPL_DIR}/ADC.cpp
+    )
+    list(APPEND INCLUDES
         include/hal/GPIO.h
         include/hal/I2CBus.h
         include/hal/I2CSlave.h
@@ -86,14 +91,25 @@ if(${HW_DHCOM_iMX6ULL})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6ULL)
 endif()
 
+#file(GLOB_RECURSE public_headers "include/" "*.h")
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
+# set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${INCLUDES}")
+
 
 # Expose DHCOM_HAL's public includes to other subprojects through cache variable
-set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
-    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
-install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
+install(TARGETS ${PROJECT_NAME}
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include
+    # PUBLIC_HEADER DESTINATION include # does not keep directory structure
+)
+
+# use this to install header files and keep directory structure
+install(DIRECTORY include/ DESTINATION include COMPONENT devel PATTERN "*.h" )
+
 
 set(CPACK_PACKAGE_VERSION 1.1)
 
@@ -101,7 +117,7 @@ set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
 get_target_property(CPACK_DEBIAN_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
 set(CPACK_DEBIAN_PACKAGE_VERSION 1.1)
-set(CPACK_DEBIAN_PACKAGE_RELEASE "2" CACHE STRING "Version of Package not the content")
+set(CPACK_DEBIAN_PACKAGE_RELEASE "3" CACHE STRING "Version of Package not the content")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECURE armhf)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18)")
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
