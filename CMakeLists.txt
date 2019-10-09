@@ -1,5 +1,5 @@
+cmake_minimum_required(VERSION 3.0)
 project(DHCOM_HAL)
-cmake_minimum_required(VERSION 2.8)
 
 set(HW_DHCOM_iMX6 ON CACHE BOOL "Build for DHCOM_IMX6")
 set(HW_DHCOM_iMX6_rev200 OFF CACHE BOOL "Build for DHCOM_iMX6_rev200")
@@ -26,9 +26,6 @@ else()
 endif()
 
 
-include_directories(include)
-
-
 list(APPEND SOURCES
     src/${IMPL_DIR}/System.cpp
     src/${IMPL_DIR}/UART.cpp
@@ -40,7 +37,6 @@ list(APPEND INCLUDES
     include/hal/System.h
     include/hal/UART.h
 )
-
 
 if(${HW_X86})
     add_definitions(-DUSE_HARDWARE_PC)
@@ -91,20 +87,22 @@ if(${HW_DHCOM_iMX6ULL})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6ULL)
 endif()
 
-#file(GLOB_RECURSE public_headers "include/" "*.h")
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
+add_library(${PROJECT_NAME} SHARED ${INCLUDES} ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
-# set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${INCLUDES}")
 
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${DHCOM_HAL_SOURCE_DIR}/include>
+)
 
-# Expose DHCOM_HAL's public includes to other subprojects through cache variable
-set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
-
+include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
-    LIBRARY DESTINATION lib
+    EXPORT DHCOM_HAL
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     INCLUDES DESTINATION include
-    # PUBLIC_HEADER DESTINATION include # does not keep directory structure
 )
 
 # use this to install header files and keep directory structure
