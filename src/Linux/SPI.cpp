@@ -117,6 +117,8 @@ int SPI::transceive(const uint8_t *outputBuffer, uint8_t *inputBuffer, uint32_t 
 SPIImpl::SPIImpl(SPI::DEVICE device, SPI::CHIPSELECT chipSelect)
     : deviceName_(NULL)
     , deviceHandle_(-1)
+    , freqHZ_()
+    , bits_()
 {
     openlog("DHCOM_HAL SPI", LOG_PID|LOG_CONS|LOG_PERROR, LOG_SYSLOG);
     if(!System().getHardware())
@@ -131,6 +133,8 @@ SPIImpl::SPIImpl(SPI::DEVICE device, SPI::CHIPSELECT chipSelect)
 SPIImpl::SPIImpl(const char *device_name)
     : deviceName_(device_name)
     , deviceHandle_(-1)
+    , freqHZ_()
+    , bits_()
 {
     openlog("DHCOM_HAL SPI", LOG_PID|LOG_CONS|LOG_PERROR, LOG_SYSLOG);
 }
