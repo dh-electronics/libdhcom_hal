@@ -23,6 +23,7 @@ class DHCOM_HAL I2CSlave
 {
 public:
 	I2CSlave(I2CBus *bus, uint16_t address);
+	I2CSlave(const I2CSlave &) = delete;
 
     STATUS 	read(uint8_t *buffer, uint32_t count) const;
 	uint8_t	read(STATUS *status = NULL) const;
@@ -30,8 +31,6 @@ public:
 	STATUS 	write(uint8_t byte);
 
 private:
-    I2CSlave(const I2CSlave &) : bus_(NULL) {}
-
 	I2CBus * const 	bus_;
 	uint16_t 	address_;
 };
