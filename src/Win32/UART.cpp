@@ -196,6 +196,8 @@ STATUS UARTImpl::setCommParams(UART::BAUDRATE baudRate, UART::PARITY parity, UAR
     case UART::BAUDRATE_115200:
         dcb.BaudRate = CBR_115200;
         break;
+    default:
+        break;
     }
 
 #undef PARITY_NONE
