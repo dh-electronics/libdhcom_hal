@@ -109,12 +109,12 @@ install(TARGETS ${PROJECT_NAME}
 install(DIRECTORY include/ DESTINATION include COMPONENT devel PATTERN "*.h" )
 
 
-set(CPACK_PACKAGE_VERSION 1.2)
+set(CPACK_PACKAGE_VERSION 1.3)
 
 set(CPACK_GENERATOR "DEB")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Peter Kishalov <pkishalov@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "DH electronics GmbH <embedded@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
 get_target_property(CPACK_DEBIAN_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
-set(CPACK_DEBIAN_PACKAGE_VERSION 1.2)
+set(CPACK_DEBIAN_PACKAGE_VERSION 1.3)
 set(CPACK_DEBIAN_PACKAGE_RELEASE "1" CACHE STRING "Version of Package not the content")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECURE armhf)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18)")
