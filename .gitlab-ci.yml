@@ -1,27 +1,32 @@
-# default image
-image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v7/debian-build-essential:jessie
 
-build-hello-world-arm32v7:
+build-dhcom-hal-arm32v7:
+  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v7/debian-build-essential:jessie
   stage: build
   script:
+    - uname -m
     - mkdir build
     - cd build
     - cmake CMakeLists.txt ../
     - make
+    - cpack
+    - mv dhcom-hal-1.3-Linux.deb ../dhcom-hal_1.3-1_armhf.deb
   artifacts:
     paths:
-      - hello-world
+      - dhcom-hal_1.3-1_armhf.deb
 
-build-hello-world-arm32v5:
+build-dhcom-hal-arm32v5:
   # override default image
   image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v5/debian-build-essential:jessie
   stage: build
   script:
+    - uname -m
     - mkdir build
     - cd build
     - cmake CMakeLists.txt ../
     - make
+    - cpack
+    - mv dhcom-hal-1.3-Linux.deb ../dhcom-hal_1.3-1_armel.deb
   artifacts:
     paths:
-      - hello-world
+      - dhcom-hal_1.3-1_armel.deb
 
