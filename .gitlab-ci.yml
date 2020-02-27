@@ -1,0 +1,27 @@
+# default image
+image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v7/debian-build-essential:jessie
+
+build-hello-world-arm32v7:
+  stage: build
+  script:
+    - mkdir build
+    - cd build
+    - cmake CMakeLists.txt ../
+    - make
+  artifacts:
+    paths:
+      - hello-world
+
+build-hello-world-arm32v5:
+  # override default image
+  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v5/debian-build-essential:jessie
+  stage: build
+  script:
+    - mkdir build
+    - cd build
+    - cmake CMakeLists.txt ../
+    - make
+  artifacts:
+    paths:
+      - hello-world
+
