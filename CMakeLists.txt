@@ -87,6 +87,10 @@ if(${HW_DHCOM_iMX6ULL})
     add_definitions(-DUSE_HARDWARE_DHCOM_IMX6ULL)
 endif()
 
+if(${HW_DHCOM_STM32MP1})
+    add_definitions(-DUSE_HARDWARE_DHCOM_STM32MP1)
+endif()
+
 
 add_library(${PROJECT_NAME} SHARED ${INCLUDES} ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)

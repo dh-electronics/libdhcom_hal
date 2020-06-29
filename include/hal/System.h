@@ -17,25 +17,8 @@
 #include <hal/I2CBus.h>
 #include <hal/SPI.h>
 
-
-/// Use this definition if you want the library to support DHCOM-iMX6-rev200
-//#define USE_HARDWARE_DHCOM_IMX6_REV200
-/// Use one of these definitions if you want the library to support DHCOM-iMX6-rev300
-//#define USE_HARDWARE_DHCOM_IMX6_REV300
-//#define USE_HARDWARE_DHCOM_IMX6
-/// Use this definition if you want the library to support DHCOM-iMX25
-//#define USE_HARDWARE_DHCOM_IMX25
-/// Use this definition if you want the library to support DHCOM-iMX6ULL
-//#define USE_HARDWARE_DHCOM_IMX6ULL
-/// Use this definition if you want the library to support DHCOM-AM35xx
-//#define USE_HARDWARE_DHCOM_AM35
-/// Use this definition if you want the library to support x86 PC
-//#define USE_HARDWARE_PC
-
-
 namespace dhcom
 {
-
 
 struct HardwareProps;
 
@@ -46,15 +29,16 @@ public:
 	// Enumeration for all possible hardware platforms
 	enum HARDWARE
 	{
-        HARDWARE_INVALID            = 0,    ///< hardware was not set yet (used as a return value)
-        HARDWARE_DHCOM_IMX25        = 1,    ///< Running on DHCOM-iMX25 module
+        HARDWARE_INVALID            = 0,	///< hardware was not set yet (used as a return value)
+        HARDWARE_DHCOM_IMX25        = 1,	///< Running on DHCOM-iMX25 module
         HARDWARE_DHCOM_AM35         = 2,	///< Running on DHCOM-AM35 module
         HARDWARE_DHCOM_IMX6_REV200  = 3,	///< Running on DHCOM-iMX6 module, revision 200
         HARDWARE_DHCOM_IMX6_REV300  = 4,	///< Running on DHCOM-iMX6 module, revision 300
         HARDWARE_DHCOM_IMX6         = HARDWARE_DHCOM_IMX6_REV300,   ///< Running on DHCOM-iMX6 module, shortcut for revision 300
         HARDWARE_DHCOM_AM33         = 5,	///< Running on DHCOM-AM33 module
         HARDWARE_DHCOM_IMX6ULL      = 6,	///< Running on DHCOM-iMX6ULL module
-        HARDWARE_PC             = 100   ///< Running on x86_32 or x86_64 PC
+        HARDWARE_DHCOM_STM32MP1     = 7,	///< Running on DHCOM-STM32MP1 module
+        HARDWARE_PC                 = 100	///< Running on x86_32 or x86_64 PC
 	};
 
 	System();

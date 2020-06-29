@@ -21,10 +21,10 @@ struct HardwareProps
 	const uint8_t 	* const GPIOpins_;
 	const uint8_t			numberOfUarts_;
 	const char * const * const uartNames_;
-    const uint8_t			numberOfI2C_;
-    const char * const * const i2cNames_;
-    const uint8_t			numberOfSPI_;
-    const char * const * const spiNames_;
+	const uint8_t			numberOfI2C_;
+	const char * const * const i2cNames_;
+	const uint8_t			numberOfSPI_;
+	const char * const * const spiNames_;
 
 } * System::hwProps_ = NULL;
 
@@ -34,6 +34,7 @@ struct HardwareProps
 #include "HardwareProps_IMX25.hpp"
 #include "HardwareProps_IMX6.hpp"
 #include "HardwareProps_IMX6ULL.hpp"
+#include "HardwareProps_STM32MP1.hpp"
 #include "HardwareProps_PC.hpp"
 
 
@@ -61,18 +62,21 @@ STATUS System::setHardware(System::HARDWARE hardware)
 	case HARDWARE_DHCOM_AM35:
 		hwProps_ = AM35_Props;
 		break;
-    case HARDWARE_DHCOM_AM33:
-        hwProps_ = AM33_Props;
-        break;
-    case HARDWARE_DHCOM_IMX6_REV200:
-        hwProps_ = IMX6_REV200_Props;
-        break;
-    case HARDWARE_DHCOM_IMX6_REV300:
-        hwProps_ = IMX6_REV300_Props;
-        break;
-    case HARDWARE_DHCOM_IMX6ULL:
-        hwProps_ = IMX6ULL_Props;
-        break;
+	case HARDWARE_DHCOM_AM33:
+		hwProps_ = AM33_Props;
+		break;
+	case HARDWARE_DHCOM_IMX6_REV200:
+		hwProps_ = IMX6_REV200_Props;
+		break;
+	case HARDWARE_DHCOM_IMX6_REV300:
+		hwProps_ = IMX6_REV300_Props;
+		break;
+	case HARDWARE_DHCOM_IMX6ULL:
+		hwProps_ = IMX6ULL_Props;
+		break;
+	case HARDWARE_DHCOM_STM32MP1:
+		hwProps_ = STM32MP1_Props;
+		break;
 	case HARDWARE_PC:
 		hwProps_ = PC_Props;
 		break;
