@@ -11,9 +11,7 @@
 
 #   warning "Including HARDWARE_DHCOM_STM32MP1"
 
-static const uint8_t STM32MP1_GPIOpins[] = { /* TODO: This are still i.MX6ULL gpio numbers, bigger effort required to use gpiochip interface */
-    128, 129, 130, 131, 132, 135, 136, 137, 18, 116, 114, 113, 115, 124, 123, 122, 121, 120, 119, 118, 117 };
- /* A    B    C    D    E    F    G    H    I   J    K    L    M    N    O    P    Q    R    S    T    U */
+static const uint8_t STM32MP1_GPIOpins[] = { /* TODO: bigger effort required to use gpiochip interface */ };
 
 static const char *STM32MP1_UARTS[] = {
     "/dev/ttySTM0", "/dev/ttySTM2", "/dev/ttySTM1"};
