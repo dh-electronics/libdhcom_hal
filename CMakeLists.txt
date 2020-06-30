@@ -102,6 +102,10 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${DHCOM_HAL_SOURCE_DIR}/include>
 )
 
+target_link_libraries(${PROJECT_NAME}
+    gpiod
+)
+
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
     EXPORT DHCOM_HAL

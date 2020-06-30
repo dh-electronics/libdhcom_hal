@@ -12,6 +12,8 @@
 
 #include <DHCOM_HAL.h>
 #include <hal/Types.h>
+#include <string>
+#include <time.h>
 
 
 namespace dhcom
@@ -53,8 +55,8 @@ public:
 	};
 
 	GPIO(const System &sys, PORT port);
-    explicit GPIO(uint16_t pinInternal);
-    ~GPIO();
+	explicit GPIO(uint16_t pinInternal);
+	~GPIO();
 
 	STATUS open();
 	STATUS close();
@@ -66,6 +68,7 @@ public:
 	int16_t pin() const;
 
 	STATUS edgeDetect(EDGE edge);
+	STATUS edgeWait(const struct timespec *timeout);
 	int fileDescriptor() const;
 
 private:
@@ -73,7 +76,7 @@ private:
     explicit GPIO(const GPIO &) : impl_(NULL) {}
 #endif
 
-	GPIOImpl * const impl_;
+	GPIOImpl * impl_;
 };
 
 

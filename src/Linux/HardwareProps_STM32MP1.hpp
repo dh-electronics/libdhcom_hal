@@ -11,7 +11,9 @@
 
 #   warning "Including HARDWARE_DHCOM_STM32MP1"
 
-static const uint8_t STM32MP1_GPIOpins[] = { /* TODO: bigger effort required to use gpiochip interface */ };
+static const uint8_t STM32MP1_GPIOpins[] = {
+    /* labeled gpios via libgpiod have to be used */
+};
 
 static const char *STM32MP1_UARTS[] = {
     "/dev/ttySTM0", "/dev/ttySTM2", "/dev/ttySTM1"};

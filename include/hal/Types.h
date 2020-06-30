@@ -65,7 +65,8 @@ enum STATUS
     STATUS_I2C_SLAVE_SELECT_FAILED,		///< selecting i2c slave failed
 
     // gpio specific
-
+    STATUS_GPIO_FIND_FAILED,
+    STATUS_GPIO_EVENT_WAIT_TIMEOUT,
     // spi specific
 
     // uart specific
