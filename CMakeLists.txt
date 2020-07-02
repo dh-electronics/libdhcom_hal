@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(DHCOM_HAL)
 
+add_subdirectory(tests)      # tests of library
+
 set(HW_DHCOM_iMX6 ON CACHE BOOL "Build for DHCOM_IMX6")
 set(HW_DHCOM_iMX6_rev200 OFF CACHE BOOL "Build for DHCOM_iMX6_rev200")
 set(HW_DHCOM_iMX6_rev300 OFF CACHE BOOL "Build for DHCOM_iMX6_rev300")
@@ -17,7 +19,6 @@ set_property(CACHE OS PROPERTY STRINGS
     linux
     win32
 )
-
 
 if(${OS} STREQUAL "win32")
     add_definitions("-DDHCOM_HAL=__declspec(dllexport)")
@@ -118,15 +119,15 @@ install(TARGETS ${PROJECT_NAME}
 install(DIRECTORY include/ DESTINATION include COMPONENT devel PATTERN "*.h" )
 
 
-set(CPACK_PACKAGE_VERSION 1.3)
+set(CPACK_PACKAGE_VERSION 1.4+deb8)
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "DH electronics GmbH <embedded@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
 get_target_property(CPACK_DEBIAN_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
-set(CPACK_DEBIAN_PACKAGE_VERSION 1.3)
+set(CPACK_DEBIAN_PACKAGE_VERSION 1.4+deb8)
 set(CPACK_DEBIAN_PACKAGE_RELEASE "1" CACHE STRING "Version of Package not the content")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECURE armhf)
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18), libgpiod1 (>= 1.0.1-1)")
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "DHCOM Hardware Abstraction Library")
 set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
