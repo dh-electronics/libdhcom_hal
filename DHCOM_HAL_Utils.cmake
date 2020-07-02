@@ -73,7 +73,7 @@ endif()
 
 macro(git_describe var_name path)
   if(GIT_FOUND)
-    execute_process(COMMAND "${GIT_EXECUTABLE}" describe --tags --dirty --long
+    execute_process(COMMAND "${GIT_EXECUTABLE}" describe --tags
       WORKING_DIRECTORY "${path}"
       OUTPUT_VARIABLE ${var_name}
       RESULT_VARIABLE GIT_RESULT
