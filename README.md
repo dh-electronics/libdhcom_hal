@@ -17,6 +17,11 @@ devel@Stretch:/work/build$ cmake -D CMAKE_TOOLCHAIN_FILE=../dhcom-hal/arm-linux-
 devel@Stretch:/work/build$ make
 ```
 
+* build debian package (tested for Debian 10)
+```bash
+devel@Stretch:/work/build$ cpack
+```
+
 ## Latest Build
 
 [![pipeline status](https://dhplgl01/sw0028/dhcom_hal/badges/master/pipeline.svg)](https://dhplgl01/sw0028/dhcom_hal/commits/master)
