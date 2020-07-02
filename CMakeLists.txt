@@ -103,8 +103,9 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${DHCOM_HAL_SOURCE_DIR}/include>
 )
 
+# tricky: libgpiod2:armhf does not provide libgpiod.so file only .so.2
 target_link_libraries(${PROJECT_NAME}
-    gpiod
+    :libgpiod.so.2
 )
 
 include(GNUInstallDirs)
