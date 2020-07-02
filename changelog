@@ -1,10 +1,14 @@
-dhcom-hal package
+libdhcom-hal package
 
 2020-07-02/LZ:
-version 1.4+deb8
+version 1.4+deb10
 - add support for DHCOM STM32MP1
 - add libgpiod1 dependencies
 - add detectSoC to DHCOM_HAL
+
+2020-07-01/LZ:
+version 1.3+deb10
+- use to cpack to generate packages
 
 2019-10-28/LZ:
 version 1.3

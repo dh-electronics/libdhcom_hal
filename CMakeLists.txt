@@ -108,29 +108,51 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 include(GNUInstallDirs)
+
+set(RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/copyright")
+set(RESOURCE_FILE_CHANGELOG "${CMAKE_SOURCE_DIR}/changelog")
+
 install(TARGETS ${PROJECT_NAME}
     EXPORT DHCOM_HAL
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    INCLUDES DESTINATION include
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}
+    COMPONENT lib
 )
 
-# use this to install header files and keep directory structure
-install(DIRECTORY include/ DESTINATION include COMPONENT devel PATTERN "*.h" )
+install(FILES ${RESOURCE_FILE_LICENSE} ${RESOURCE_FILE_CHANGELOG}
+    DESTINATION /usr/share/doc/libdhcom-hal/
+    COMPONENT lib
+)
 
+install(DIRECTORY include/ 
+    DESTINATION include
+    COMPONENT dev
+    PATTERN "*.h" 
+)
 
-set(CPACK_PACKAGE_VERSION 1.4+deb8)
+install(FILES ${RESOURCE_FILE_LICENSE} ${RESOURCE_FILE_CHANGELOG}
+    DESTINATION /usr/share/doc/libdhcom-hal-dev/
+    COMPONENT dev
+)
+
+include(DHCOM_HAL_Utils.cmake)
+
+# ----------------------------------------------------------------------------
+#  Autodetect if we are in a GIT repository
+# ----------------------------------------------------------------------------
+find_host_package(Git QUIET)
+
+if(NOT DEFINED DHCOM_HAL_VCSVERSION AND GIT_FOUND)
+  git_describe(DHCOM_HAL_VCSVERSION "${DHCOM_HAL_SOURCE_DIR}")
+elseif(NOT DEFINED DHCOM_HAL_VCSVERSION)
+  # We don't have git:
+  set(DHCOM_HAL_VCSVERSION "unknown")
+endif()
+if(DHCOM_HAL_VCSVERSION)
+  message("")
+  message(${PROJECT_NAME} " vcs version: " ${DHCOM_HAL_VCSVERSION})
+endif()
 
 set(CPACK_GENERATOR "DEB")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "DH electronics GmbH <embedded@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
-get_target_property(CPACK_DEBIAN_PACKAGE_VERSION ${PROJECT_NAME} VERSION )
-set(CPACK_DEBIAN_PACKAGE_VERSION 1.4+deb8)
-set(CPACK_DEBIAN_PACKAGE_RELEASE "1" CACHE STRING "Version of Package not the content")
-set(CPACK_DEBIAN_PACKAGE_ARCHITECURE armhf)
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>=2.19-18), libgpiod1 (>= 1.0.1-1)")
-set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "DHCOM Hardware Abstraction Library")
-set(CPACK_PACKAGE_NAME "dhcom-hal" CACHE STRING "Package name")
-set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/DEBIAN_PACKAGE/changelog;${CMAKE_CURRENT_SOURCE_DIR}/DEBIAN_PACKAGE/preinst;${CMAKE_CURRENT_SOURCE_DIR}/DEBIAN_PACKAGE/postinst")
-include(CPack)
+set(DHCOM_HAL_PACKAGE_NAME "libdhcom-hal")
+include(DHCOM_HAL_Packaging.cmake)
 
