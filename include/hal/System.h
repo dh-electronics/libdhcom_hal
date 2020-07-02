@@ -42,21 +42,23 @@ public:
 	};
 
 	System();
-    explicit System(HARDWARE hardware);
+	explicit System(HARDWARE hardware);
+
+	static HARDWARE detectSoC();
 
 	STATUS 		setHardware(HARDWARE hardware);
 	HARDWARE 	getHardware() const;
 
 	uint16_t 	getUartsNumber(STATUS *status = NULL) const;
-	const char *getUartDeviceName(UART::DEVICE device, STATUS *status = NULL) const;
+	const char 	*getUartDeviceName(UART::DEVICE device, STATUS *status = NULL) const;
 
 	uint16_t 	getGPIOPortsNumber(STATUS *status = NULL) const;
 	uint8_t 	getGPIOPortPin(GPIO::PORT port, STATUS *status = NULL) const;
-    const char *getI2CDeviceName(I2CBus::BUS bus) const;
-    const char *getSPIDeviceName(SPI::DEVICE bus) const;
+	const char *getI2CDeviceName(I2CBus::BUS bus) const;
+	const char *getSPIDeviceName(SPI::DEVICE bus) const;
 
 private:
-    static HardwareProps *hwProps_;
+	static HardwareProps *hwProps_;
 };
 
 

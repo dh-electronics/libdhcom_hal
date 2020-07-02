@@ -120,7 +120,11 @@ GPIO::GPIO(const System &sys, GPIO::PORT pin)
     }
     else
     {   // assume all the "new" DHCOMs have labeled gpios
-        impl_ = new GPIOdImpl(std::string("A" + pin), "dhcom-hal");
+        const char *letter[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
+                                 "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+                                 "S", "T", "U", "V", "W", "X", "Y", "Z", };
+
+        impl_ = new GPIOdImpl(std::string(letter[pin]), "dhcom-hal");
     }
 }
 
@@ -504,6 +508,10 @@ STATUS GPIOdImpl::setDirection(GPIO::DIRECTION dir)
         {
             // pin is already configured
             return STATUS_SUCCESS;
+        }
+        else
+        {
+            gpiod_line_release(line_);
         }
     }
 

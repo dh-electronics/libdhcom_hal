@@ -26,6 +26,11 @@ struct HardwareProps
 
 #include "HardwareProps_PC.hpp"
 
+System::HARDWARE System::detectSoC()
+{
+	return HARDWARE_PC;
+}
+
 
 System::System()
 {
