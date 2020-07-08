@@ -11,7 +11,7 @@ if(NOT DHCOM_HAL_CUSTOM_PACKAGE_INFO)
   set(CPACK_PACKAGE_DESCRIPTION
 "The DHCOM Hardware Abstraction Library provides access to commen hardware interfaces. The aim is to
 provide a interface that is useable on multiple DHCOM boards.")
-  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "DH electronics GmbH <embedded@dh-electronics.de>" CACHE STRING "Maintainer of the Debian Package")
+  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "DH electronics GmbH <embedded@dh-electronics.com>" CACHE STRING "Maintainer of the Debian Package")
   set(CPACK_PACKAGE_VERSION "${DHCOM_HAL_VCSVERSION}")
 endif(NOT DHCOM_HAL_CUSTOM_PACKAGE_INFO)
 
