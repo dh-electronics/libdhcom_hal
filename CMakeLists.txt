@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(DHCOM_HAL)
+project(dhcom-hal)
 
 add_subdirectory(tests)      # tests of library
 
@@ -21,7 +21,7 @@ set_property(CACHE OS PROPERTY STRINGS
 )
 
 if(${OS} STREQUAL "win32")
-    add_definitions("-DDHCOM_HAL=__declspec(dllexport)")
+    add_definitions("-Ddhcom-hal=__declspec(dllexport)")
     set(IMPL_DIR Win32)
 else()
     set(IMPL_DIR Linux)
@@ -100,7 +100,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1)
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${DHCOM_HAL_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${dhcom-hal_SOURCE_DIR}/include>
 )
 
 # tricky: libgpiod2:armhf does not provide libgpiod.so file only .so.2
@@ -109,13 +109,23 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 include(GNUInstallDirs)
+set(CMAKE_INSTALL_PREFIX "/usr")
+set(INSTALL_BIN_DIR "${CMAKE_INSTALL_BINDIR}/${CMAKE_LIBRARY_ARCHITECTURE}"
+        CACHE PATH "Installation directory for executables")
+set(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}"
+        CACHE PATH "Installation directory for libraries")
+set(INSTALL_INC_DIR "${CMAKE_INSTALL_PREFIX}/include"
+        CACHE PATH "Installation directory for headers")
+set(INSTALL_PKGCFG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig"
+        CACHE PATH "Installation directory for pkgconfig (.pc) files")
+
 
 set(RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/copyright")
 set(RESOURCE_FILE_CHANGELOG "${CMAKE_SOURCE_DIR}/changelog")
 
 install(TARGETS ${PROJECT_NAME}
-    EXPORT DHCOM_HAL
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}
+    EXPORT dhcom-hal
+    LIBRARY DESTINATION ${INSTALL_LIB_DIR}
     COMPONENT lib
 )
 
@@ -135,15 +145,14 @@ install(FILES ${RESOURCE_FILE_LICENSE} ${RESOURCE_FILE_CHANGELOG}
     COMPONENT dev
 )
 
-include(DHCOM_HAL_Utils.cmake)
-
 # ----------------------------------------------------------------------------
 #  Autodetect if we are in a GIT repository
 # ----------------------------------------------------------------------------
+include(DHCOM_HAL_Utils.cmake)
 find_host_package(Git QUIET)
 
 if(NOT DEFINED DHCOM_HAL_VCSVERSION AND GIT_FOUND)
-  git_describe(DHCOM_HAL_VCSVERSION "${DHCOM_HAL_SOURCE_DIR}")
+  git_describe(DHCOM_HAL_VCSVERSION "${dhcom-hal_SOURCE_DIR}")
 elseif(NOT DEFINED DHCOM_HAL_VCSVERSION)
   # We don't have git:
   set(DHCOM_HAL_VCSVERSION "unknown")
@@ -152,6 +161,18 @@ if(DHCOM_HAL_VCSVERSION)
   message("")
   message(${PROJECT_NAME} " vcs version: " ${DHCOM_HAL_VCSVERSION})
 endif()
+
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/libdhcom-hal.pc.cmakein
+    ${CMAKE_CURRENT_BINARY_DIR}/libdhcom-hal.pc @ONLY
+)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libdhcom-hal.pc
+    DESTINATION "${INSTALL_PKGCFG_DIR}"
+    COMPONENT lib
+)
+
 
 set(CPACK_GENERATOR "DEB")
 set(DHCOM_HAL_PACKAGE_NAME "libdhcom-hal")

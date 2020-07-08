@@ -1,0 +1,14 @@
+# Package Information for pkg-config
+
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@INSTALL_LIB_DIR@
+includedir=@INSTALL_INC_DIR@
+
+Name: libdhcom-hal
+Description: DHCOM Hardware Abstraction Library.
+Version: 1
+
+Requires:
+Libs: -L${libdir} -ldhcom-hal
+Cflags: -I${includedir}
+

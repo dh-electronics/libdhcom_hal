@@ -8,7 +8,7 @@ list(APPEND SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME}
-    DHCOM_HAL
+    dhcom-hal
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++11)
