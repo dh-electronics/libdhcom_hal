@@ -13,5 +13,8 @@ target_link_libraries(${PROJECT_NAME}
 
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++11)
 
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+install(TARGETS ${PROJECT_NAME}
+    DESTINATION bin
+    COMPONENT lib
+)
 
