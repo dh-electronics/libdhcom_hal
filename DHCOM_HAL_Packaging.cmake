@@ -28,6 +28,16 @@ else()
   set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
+if("${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}" STREQUAL "armv7l")  # both armhf and armel report armv7l in gitlab-ci docker build
+  execute_process( COMMAND gcc -dumpmachine COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
+  message("Architecture: ${ARCHITECTURE}" )
+  if( ${ARCHITECTURE} STREQUAL "arm-linux-gnueabihf" )
+    set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE "armhf" )
+  else( ${ARCHITECTURE} STREQUAL "arm-linux-gnueabi")
+    set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE "armel" )
+  endif()
+endif()
+
 message("Package cpu architecture: " ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE})
 
 if(CPACK_GENERATOR STREQUAL "DEB")
