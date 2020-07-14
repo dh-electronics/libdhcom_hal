@@ -1,32 +1,36 @@
 
 build-dhcom-hal-arm32v7:
-  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v7/debian-build-essential:jessie
+  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v7/debian-build-essential:buster
   stage: build
   script:
     - uname -m
+    - apt-get --no-install-recommends -y install libgpiod-dev
     - mkdir build
     - cd build
     - cmake CMakeLists.txt ../
     - make
     - cpack
-    - mv dhcom-hal-1.3-Linux.deb ../dhcom-hal_1.3-1_armhf.deb
+    - mv *.deb ../
   artifacts:
     paths:
-      - dhcom-hal_1.3-1_armhf.deb
+      - libdhcom-hal*.deb
+      - libdhcom-hal-dev_*.deb
 
 build-dhcom-hal-arm32v5:
   # override default image
-  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v5/debian-build-essential:jessie
+  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v5/debian-build-essential:buster
   stage: build
   script:
     - uname -m
+    - apt-get --no-install-recommends -y install libgpiod-dev
     - mkdir build
     - cd build
     - cmake CMakeLists.txt ../
     - make
     - cpack
-    - mv dhcom-hal-1.3-Linux.deb ../dhcom-hal_1.3-1_armel.deb
+    - mv *.deb ../
   artifacts:
     paths:
-      - dhcom-hal_1.3-1_armel.deb
+      - libdhcom-hal*.deb
+      - libdhcom-hal-dev_*.deb
 
