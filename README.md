@@ -26,8 +26,8 @@ devel@Stretch:/work/build$ cpack
 
 [![pipeline status](https://dhplgl01/sw0028/dhcom_hal/badges/master/pipeline.svg)](https://dhplgl01/sw0028/dhcom_hal/commits/master)
 
-- [dhcom-hal_x.x-x_armel.deb][ci-artifacts-build-armel]
-- [dhcom-hal_x.x-x_armhf.deb][ci-artifacts-build-armhf]
+- [libdhcom-hal_x.x-x_armel.deb][ci-artifacts-build-armel]
+- [libdhcom-hal_x.x-x_armhf.deb][ci-artifacts-build-armhf]
 
 [ci-artifacts-build-armel]: https://dhplgl01/sw0028/dhcom_hal/-/jobs/artifacts/master/download?job=build-dhcom-hal-arm32v5
 [ci-artifacts-build-armhf]: https://dhplgl01/sw0028/dhcom_hal/-/jobs/artifacts/master/download?job=build-dhcom-hal-arm32v7
