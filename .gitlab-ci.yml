@@ -1,6 +1,6 @@
 
 build-dhcom-hal-arm32v7:
-  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v7/debian-build-essential:buster
+  image: $CI_REGISTRY/docker-images/debian-build-essential:buster-arm32v7
   stage: build
   script:
     - uname -m
@@ -18,7 +18,7 @@ build-dhcom-hal-arm32v7:
 
 build-dhcom-hal-arm32v5:
   # override default image
-  image: $CI_REGISTRY/docker-images/debian-build-essential/arm32v5/debian-build-essential:buster
+  image: $CI_REGISTRY/docker-images/debian-build-essential:buster-arm32v5
   stage: build
   script:
     - uname -m
