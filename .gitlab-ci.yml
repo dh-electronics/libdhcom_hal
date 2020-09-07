@@ -11,6 +11,7 @@ build-dhcom-hal-arm32v7:
     - cpack
     - mv *.deb ../
   artifacts:
+    expire_in: 4 weeks
     paths:
       - libdhcom-hal*.deb
 
@@ -28,6 +29,7 @@ build-dhcom-hal-arm32v5:
     - cpack
     - mv *.deb ../
   artifacts:
+    expire_in: 4 weeks
     paths:
       - libdhcom-hal*.deb
 
