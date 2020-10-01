@@ -22,14 +22,14 @@ static const char *IMX6ULL_I2C_BUS[] = {
     "/dev/i2c-1", "/dev/i2c-0" };
 
 static const char *IMX6ULL_SPI_BUS[] = {
-    "/dev/spidev0.0" };
+    "/dev/spidev0.0", "/dev/spidev3.0" };
 
 static HardwareProps IMX6ULL_Props_struct = {
     System::HARDWARE_DHCOM_IMX6ULL,
     sizeof(IMX6ULL_GPIOpins), IMX6ULL_GPIOpins,
     2, IMX6ULL_UARTS,
     2, IMX6ULL_I2C_BUS,
-    1, IMX6ULL_SPI_BUS };
+    2, IMX6ULL_SPI_BUS };
 
 #	define IMX6ULL_Props (&IMX6ULL_Props_struct)
 #endif
