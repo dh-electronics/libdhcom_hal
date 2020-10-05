@@ -1,9 +1,16 @@
 libdhcom-hal package
 
+2020-10-05/FG,LZ:
+version 1.5+deb10
+- add support for DHCOM IMX6ULL interface DHCOM SPI2
+- changes in packaging
+- add gitlab-ci support
+
+
 2020-07-02/LZ:
 version 1.4+deb10
 - add support for DHCOM STM32MP1
-- add libgpiod1 dependencies
+- add libgpiod2 dependencies
 - add detectSoC to DHCOM_HAL
 
 2020-07-01/LZ:
