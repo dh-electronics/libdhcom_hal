@@ -6,10 +6,17 @@ CONFIG += dll
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
     message("Configuring DEBUG build.")
+    DESTDIR = ../Build/$$PLATFORM/Qt_$$QT_VERSION/debug
 }
 CONFIG(release, debug|release) {
     message("Configuring RELEASE build.")
+    DESTDIR = ../Build/$$PLATFORM/Qt_$$QT_VERSION/release
 }
+
+OBJECTS_DIR = $$DESTDIR/obj
+MOC_DIR     = $$DESTDIR/moc
+RCC_DIR     = $$DESTDIR/qrc
+UI_DIR      = $$DESTDIR/u
 
 # Defining platform-dependent settings
 win32 {
