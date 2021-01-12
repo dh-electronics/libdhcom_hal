@@ -2,6 +2,7 @@ TARGET = DHCOM_HAL
 TEMPLATE = lib
 CONFIG -= qt
 CONFIG += dll
+LIBS += -lgpiod
 
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
