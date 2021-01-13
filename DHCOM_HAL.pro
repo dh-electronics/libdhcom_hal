@@ -7,11 +7,11 @@ LIBS += -lgpiod
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
     message("Configuring DEBUG build.")
-    DESTDIR = ../Build/$$PLATFORM/Qt_$$QT_VERSION/debug
+    DESTDIR = ../Build/$$ARCH/Qt_$$QT_VERSION/debug
 }
 CONFIG(release, debug|release) {
     message("Configuring RELEASE build.")
-    DESTDIR = ../Build/$$PLATFORM/Qt_$$QT_VERSION/release
+    DESTDIR = ../Build/$$ARCH/Qt_$$QT_VERSION/release
 }
 
 OBJECTS_DIR = $$DESTDIR/obj
