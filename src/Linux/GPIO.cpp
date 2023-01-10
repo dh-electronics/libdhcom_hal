@@ -124,7 +124,9 @@ GPIO::GPIO(const System &sys, GPIO::PORT pin)
                                  "J", "K", "L", "M", "N", "O", "P", "Q", "R",
                                  "S", "T", "U", "V", "W", "X", "Y", "Z", };
 
-        impl_ = new GPIOdImpl(std::string(letter[pin]), "dhcom-hal");
+        std::string gpio_name = "DHCOM-";
+
+        impl_ = new GPIOdImpl(gpio_name.append(std::string(letter[pin])), "dhcom-hal");
     }
 }
 
