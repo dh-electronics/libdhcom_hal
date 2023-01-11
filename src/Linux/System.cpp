@@ -243,6 +243,10 @@ System::HARDWARE System::detectSoC()
 		{
 			hw = System::HARDWARE_DHCOM_AM35;
 		}
+		else if(cpu_variant == 0) // STM32MP1 (used when Hardware Info field is not valid at STM32 dt)
+		{
+			hw = System::HARDWARE_DHCOM_STM32MP1;
+		}
 	}
 
 	// check selection for cpu part Cortex-A
