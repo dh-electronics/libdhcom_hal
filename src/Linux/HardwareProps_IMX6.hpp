@@ -4,7 +4,7 @@ static const char *IMX6_UARTS[] = {
     "/dev/ttymxc0", "/dev/ttymxc4", "/dev/ttymxc3", };
 
 static const char *IMX6_SPI_BUS[] = {
-    "/dev/spidev0.2", "/dev/spidev1.0" };
+    "/dev/spidev0.1", "/dev/spidev1.0" };
 #endif
 
 
