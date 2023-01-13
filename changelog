@@ -1,5 +1,13 @@
 libdhcom-hal package
 
+
+2023-01-13/LZ:
+version 1.6+deb10
+- spidev: imx6: rename spidev0.2 to spidev0.1 to match kernel 5.10.125
+  - older kernel (e.g. 4.4.60) are no longer supported -> use libdhcom-hal <= 1.5
+- cpu: detect STM32MP1 also with generic hardware text in dt
+
+
 2020-10-05/FG,LZ:
 version 1.5+deb10
 - add support for DHCOM IMX6ULL interface DHCOM SPI2
