@@ -23,7 +23,6 @@ UI_DIR      = $$DESTDIR/u
 
 # Defining platform-dependent settings
 win32 {
-	DEFINES += $$TARGET=__declspec(dllexport)
 	!isEmpty(CE_SDK) {
 		DHCOM_HAL_IMPL = WinCE
 	} else {
