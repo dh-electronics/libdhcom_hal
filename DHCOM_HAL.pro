@@ -2,7 +2,9 @@ TARGET = DHCOM_HAL
 TEMPLATE = lib
 CONFIG -= qt
 CONFIG += dll
-LIBS += -lgpiod
+unix {
+    LIBS += -lgpiod
+}
 
 # Defining build type dependent settings
 CONFIG(debug, debug|release) {
@@ -21,7 +23,6 @@ UI_DIR      = $$DESTDIR/u
 
 # Defining platform-dependent settings
 win32 {
-	DEFINES += $$TARGET=__declspec(dllexport)
 	!isEmpty(CE_SDK) {
 		DHCOM_HAL_IMPL = WinCE
 	} else {

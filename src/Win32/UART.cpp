@@ -299,16 +299,21 @@ STATUS UARTImpl::open()
     if(isOpen())
         return STATUS_DEVICE_ALREADY_OPEN;
 
-    // WCHAR wDeviceName[24];
-    // mbstowcs_s(NULL, wDeviceName, sizeof(wDeviceName)/sizeof(WCHAR), deviceName_, _TRUNCATE);
+    size_t size = strlen(deviceName_) + 1;
+    wchar_t* wcDeviceName = new wchar_t[size];
 
-    deviceHandle_ = CreateFile( deviceName_
+    size_t outSize;
+    mbstowcs_s(&outSize, wcDeviceName, size, deviceName_, size-1);
+
+    deviceHandle_ = CreateFile( wcDeviceName
                                 ,GENERIC_READ | GENERIC_WRITE
                                 ,0
                                 ,NULL
                                 ,OPEN_EXISTING
                                 ,FILE_FLAG_OVERLAPPED // FILE_FLAG_OVERLAPPED
                                 ,NULL);
+
+    delete[] wcDeviceName;
 
     if(deviceHandle_ == INVALID_HANDLE_VALUE)
         return STATUS_DEVICE_OPEN_FAILED;

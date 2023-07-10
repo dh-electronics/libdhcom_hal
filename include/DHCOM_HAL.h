@@ -10,7 +10,7 @@
 #	ifdef __linux__
 #		define DHCOM_HAL
 #	else
-#		define DHCOM_HAL __declspec(dllimport)
+#		define DHCOM_HAL __declspec(dllexport)
 #	endif
 #endif
 
@@ -20,11 +20,6 @@
  *
  *  <b>DHCOM_HAL</b> macro is preceding every public class declaration in the library.
  *
- *  The idea is that on Windows systems with MSVC compiler this macro will be automatically
- *  defined as <b>__declspec(dllimport)</b> for linking to the library.
- *
- *  For building the library the macro must be defined as <b>__declspec(dllexport)</b>.
- *  The build script DHCOM_HAL.pro for Qt qmake, supplied with the library does this definition automatically.
  *  For manual compiling of the library on Windows - do the <b>/D "DHCOM_HAL=__declspec(dllexport)"</b> in compiler command line.
  **/
 
