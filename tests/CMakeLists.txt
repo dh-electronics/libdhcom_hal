@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# SPDX-FileCopyrightText: © 2012 DH electronics GmbH
+
 project(dhcom-hal-tests)
 cmake_minimum_required (VERSION 3.0)
 

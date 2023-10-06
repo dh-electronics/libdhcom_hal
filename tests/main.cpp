@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: © 2020 DH electronics GmbH
+
+
 #include "test.h"
 
 #include <stdint.h>
