@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: © 2013 DH electronics GmbH
 /*
- * ADC.h
- *
  *  Created on: Apr 16, 2013
  *      Author: Peter Kishalov (PK), DH electronics GmbH
  */

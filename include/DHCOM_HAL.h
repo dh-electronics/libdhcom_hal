@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: © 2012 DH electronics GmbH
 /*
- * DHCOM_HAL.h
- *
  *  Created on: Dec 17, 2012
  *      Author: Peter Kishalov (PK), DH electronics GmbH
  */

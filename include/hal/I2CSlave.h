@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: © 2012 DH electronics GmbH
 /*
- * I2CSlave.h
- *
  *  Created on: Dec 19, 2012
  *      Author: Peter Kishalov (PK), DH electronics GmbH
  */
