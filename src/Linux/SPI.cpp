@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: (c) 2012 DH electronics GmbH
 /*
- * SPI.cpp
- *
  *  Created on: Dec 19, 2012
  *      Author: Peter Kishalov (PK), DH electronics GmbH
  */

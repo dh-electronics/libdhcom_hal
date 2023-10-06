@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: (c) 2015 DH electronics GmbH
+
 #if defined(USE_HARDWARE_DHCOM_IMX6_REV200) || defined(USE_HARDWARE_DHCOM_IMX6_REV300) || defined(USE_HARDWARE_DHCOM_IMX6)
 // UARTS are common to the both revisions
 static const char *IMX6_UARTS[] = {

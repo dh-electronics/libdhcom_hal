@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: (c) 2013 DH electronics GmbH
 /*
- * ADC.cpp
- *
  *  Created on: Apr 16, 2013
  *      Author: Peter Kishalov (PK), DH electronics GmbH
  */
@@ -99,9 +99,6 @@ ADCImpl::ADCImpl(const System &sys, ADC::CHANNEL channel)
 			deviceName_ = "/dev/imx_adc";
 			break;
 
-		case System::HARDWARE_DHCOM_AM35:
-			throw string("DHCOM AM35xx currently does not support ADC");
-
 		default:
 			throw string("Hardware does not support ADC");
 	}
@@ -109,15 +106,15 @@ ADCImpl::ADCImpl(const System &sys, ADC::CHANNEL channel)
 	switch(channel)
 	{
 	case ADC::CHANNEL_0:
-		channel_ = GER_PURPOSE_ADC0;
+		channel_ = CHANNEL_ADC0;
 		break;
 
 	case ADC::CHANNEL_1:
-		channel_ = GER_PURPOSE_ADC1;
+		channel_ = CHANNEL_ADC1;
 		break;
 
 	case ADC::CHANNEL_2:
-		channel_ = GER_PURPOSE_ADC2;
+		channel_ = CHANNEL_ADC2;
 		break;
 
 	default:
@@ -141,7 +138,7 @@ void ADCImpl::open()
 	if(fd_ < 0)
 		throw string("ADC device could not be opened");
 
-	if(0 != ioctl(fd_, IMX_ADC_INIT, NULL))
+	if(0 != ioctl(fd_, ADC_INIT, NULL))
 		throw string("ADC initialization failed");
 }
 
@@ -151,7 +148,7 @@ void ADCImpl::close()
 	if(!isOpen())
 		return;
 
-	if(0 != ioctl(fd_, IMX_ADC_DEINIT, NULL))
+	if(0 != ioctl(fd_, ADC_DEINIT, NULL))
 		throw string("ADC de-initialization failed");
 
 	::close(fd_);
@@ -169,7 +166,7 @@ uint16_t ADCImpl::read() const
 	convert_param.channel = channel_;
 	convert_param.result[0] = 0;
 
-	if(0 != ioctl(fd_, IMX_ADC_CONVERT, &convert_param))
+	if(0 != ioctl(fd_, ADC_CONVERT, &convert_param))
 		throw string("ADC conversion failed");
 
 	//	printf("Converted value: %hu\n", convert_param.result[0]);

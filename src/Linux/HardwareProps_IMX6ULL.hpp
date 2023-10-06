@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: (c) 2019 DH electronics GmbH
 /*
- * HardwareProps_IMX6ULL.hpp
- *
  *  Created on: April 25, 2019
  *      Author: Ludwig Zenz (LZ), DH electronics GmbH
  */

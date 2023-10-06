@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// SPDX-FileCopyrightText: © 2013 DH electronics GmbH
+// SPDX-FileCopyrightText: (c) 2013 DH electronics GmbH
 /*
  *  Created on: Jan 14, 2013
  *      Author: Peter Kishalov (PK), DH electronics GmbH

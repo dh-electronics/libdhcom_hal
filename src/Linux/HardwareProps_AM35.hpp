@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: (c) 2013 DH electronics GmbH
 /*
- * HardwareProps_AM35.hpp
- *
  *  Created on: Jul 4, 2013
  *      Author: Peter Kishalov (PK), DH electronics GmbH
  */

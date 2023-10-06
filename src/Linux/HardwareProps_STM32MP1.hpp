@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-FileCopyrightText: (c) 2020 DH electronics GmbH
 /*
- * HardwareProps_STM32MP1.hpp
- *
  *  Created on: June 29, 2020
  *      Author: Ludwig Zenz (LZ), DH electronics GmbH
  */
