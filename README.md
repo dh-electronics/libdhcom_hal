@@ -1,5 +1,7 @@
 # DHCOM Hardware Abstraction Library
 
+AVOID USAGE IN NEW PROJECTS!
+
 ## Build Steps
 
 * build directory should be out of source tree (when using Eclipse IDE)
