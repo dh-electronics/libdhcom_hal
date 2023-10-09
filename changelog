@@ -1,5 +1,9 @@
 libdhcom-hal package
 
+2023-10-09/LZ:
+version 1.7
+- refactor imx_adx (DHCOM i.MX25) support
+
 2023-10-06/LZ:
 - update license information in file headers
 

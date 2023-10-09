@@ -3,6 +3,8 @@
 /*
  *  Created on: Apr 16, 2013
  *      Author: Peter Kishalov (PK), DH electronics GmbH
+ *
+ * Attention: Only DHCOM i.MX25 ADC is supported!
  */
 
 
@@ -23,13 +25,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <asm/types.h>
-#include "imx_adc.h"
 #include <string>
 
 
 using namespace std;
 namespace dhcom
 {
+
+/* Initialize ADC. arg: none. */
+#define ADC_INIT                   _IO('p', 0xb0)
+
+/* De-initialize ADC. arg: none. */
+#define ADC_DEINIT                 _IO('p', 0xb1)
+
+/* Convert one channel.
+ * arg type: pointer to t_imx_adc_convert_param. */
+#define ADC_CONVERT                _IOWR('p', 0xb2, int)
+
+/* input channels for IMX25 ADC */
+enum t_imx_channels { /* see linux driver for further details */
+	CHANNEL_ADC0=2,
+	CHANNEL_ADC1=3,
+	CHANNEL_ADC2=4,
+};
+
+/*!
+ * This structure is used with IOCTL code ADC_CONVERT
+ */
+struct t_imx_adc_convert_param {
+	/* channel or channels to be sampled.  */
+	enum t_imx_channels channel;
+	/* holds up to 16 sampling results */
+	unsigned short result[16];
+};
 
 
 class ADCImpl
@@ -47,7 +75,7 @@ public:
 private:
 	const char * deviceName_;
 	int fd_;
-	t_channel	channel_;
+	t_imx_channels	channel_;
 };
 
 
@@ -162,7 +190,7 @@ uint16_t ADCImpl::read() const
 		throw string("Read on a non-open ADC.");
 
 	// read out the value on ADC
-	struct t_adc_convert_param convert_param;
+	struct t_imx_adc_convert_param convert_param;
 	convert_param.channel = channel_;
 	convert_param.result[0] = 0;
 
